@@ -7,7 +7,7 @@ WORKDIR /app
 RUN git clone -b ProgressionGUI https://github.com/AnteKISS/Frontend.git .
 RUN git pull
 
-RUN rm package-lock.json && npm install
+RUN npm install
 
 EXPOSE 8080
 
