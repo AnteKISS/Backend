@@ -1,0 +1,14 @@
+FROM node:14
+
+RUN apt-get update && apt-get install -y git
+
+WORKDIR /app
+
+RUN git clone -b ProgressionGUI https://github.com/AnteKISS/Frontend.git .
+RUN git pull
+
+RUN rm package-lock.json && npm install
+
+EXPOSE 8080
+
+CMD ["npm", "start"]
