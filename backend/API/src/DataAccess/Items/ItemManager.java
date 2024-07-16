@@ -17,22 +17,24 @@ public class ItemManager
 
         try (Connection conn = DriverManager.getConnection(dbPath, dbUsername, dbPassword))
         {
-            String sql = "SELECT * FROM Item";
+            String sql = "SELECT * FROM FUNC_GetALLItemsCore()";
             Statement stmt = conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next())
             {
-                int itemId = rs.getInt("ItemID");
-                String itemName = rs.getString("ItemName");
-                String itemQualityCode = rs.getString("ItemQualityCode");
-                String itemRarityCode = rs.getString("ItemRarityCode");
-                String itemTypeCode = rs.getString("ItemTypeCode");
-                String classCode = rs.getString("ClassCode");
+                int itemId = rs.getInt("id");
+                String itemName = rs.getString("name");
+                String itemQualityCode = rs.getString("qualityCode");
+                String itemRarityCode = rs.getString("rarityCode");
+                String itemTypeCode = rs.getString("typeCode");
+                String classCode = rs.getString("reservedClassCode");
+                String itemSizeCode = rs.getString("sizeCode");
 
                 ArrayList<ItemStatDTO> itemBaseStats = getItemBaseStats(itemTypeCode);
-                ItemDTO itemDTO = new ItemDTO(itemId, itemName, itemQualityCode, itemRarityCode, itemTypeCode, classCode, itemBaseStats);
+                ArrayList<ItemModifierDTO> itemModifiers = getItemModifiers(itemId);
+                ItemDTO itemDTO = new ItemDTO(itemId, itemName, itemQualityCode, itemRarityCode, itemTypeCode, classCode, itemSizeCode, itemBaseStats, itemModifiers);
                 items.add(itemDTO);
             }
         }
@@ -50,15 +52,15 @@ public class ItemManager
 
         try (Connection conn = DriverManager.getConnection(dbPath, dbUsername, dbPassword))
         {
-            String sql = "SELECT * FROM ItemBaseStats WHERE ItemTypeCode = '" + itemTypeCode + "'";
+            String sql = "SELECT * FROM FUNC_GetItemStats('" + itemTypeCode + "')";
             Statement stmt = conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next())
             {
-                String itemStatCode = rs.getString("itemStatCode");
-                String itemStatValue = rs.getString("statValue");
+                String itemStatCode = rs.getString("statCode");
+                String itemStatValue = rs.getString("value");
 
                 ItemStatDTO itemBaseStat = new ItemStatDTO();
                 itemBaseStats.add(itemBaseStat);
@@ -72,13 +74,13 @@ public class ItemManager
         return itemBaseStats;
     }
 
-    private ArrayList<ItemStatDTO> getItemModifiers(int itemId)
+    private ArrayList<ItemModifierDTO> getItemModifiers(int itemId)
     {
-        ArrayList<ItemStatDTO> itemBaseStats = new ArrayList<ItemStatDTO>();
+        ArrayList<ItemModifierDTO> itemModifiers = new ArrayList<ItemModifierDTO>();
 
         try (Connection conn = DriverManager.getConnection(dbPath, dbUsername, dbPassword))
         {
-            String sql = "SELECT * FROM ItemItemModifier WHERE itemId = '" + itemId + "'";
+            String sql = "SELECT * FROM FUNC_GetItemModifiers(" + itemId + ")";
             Statement stmt = conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -88,8 +90,8 @@ public class ItemManager
                 String itemModifierCode = rs.getString("itemModifierCode");
                 float modifierValue = rs.getFloat("modifierValue");
 
-                ItemStatDTO itemBaseStat = new ItemStatDTO();
-                itemBaseStats.add(itemBaseStat);
+                ItemModifierDTO itemModifier = new ItemModifierDTO();
+                itemModifiers.add(itemModifier);
             }
         }
         catch (SQLException e)
@@ -97,6 +99,6 @@ public class ItemManager
             System.out.println(e.getMessage());
         }
 
-        return itemBaseStats;
+        return itemModifiers;
     }
 }
