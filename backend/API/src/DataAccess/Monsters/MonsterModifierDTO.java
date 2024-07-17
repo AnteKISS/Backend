@@ -1,11 +1,11 @@
-package DataAccess.Items;
+package DataAccess.Monsters;
 
-public class ItemModifierDTO
+public class MonsterModifierDTO
 {
     public String itemModifierCode;
     public float modifierValue;
 
-    public ItemModifierDTO()
+    public MonsterModifierDTO()
     {
         itemModifierCode = "";
         modifierValue = 0;

@@ -1,21 +1,24 @@
 package DataAccess.Items;
 
+import DataAccess.DBInfo;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class ItemManager
 {
-    String dbPath = "jdbc:postgresql://localhost:5432/GameData";
-    String dbUsername = "postgres";
-    String dbPassword = "admin";
+    DBInfo dbInfo;
 
-    public ItemManager() {}
+    public ItemManager()
+    {
+        dbInfo = new DBInfo();
+    }
 
     public ArrayList<ItemDTO> getAllItems()
     {
         ArrayList<ItemDTO> items = new ArrayList<ItemDTO>();
 
-        try (Connection conn = DriverManager.getConnection(dbPath, dbUsername, dbPassword))
+        try (Connection conn = DriverManager.getConnection(dbInfo.dbPath, dbInfo.dbUsername, dbInfo.dbPassword))
         {
             String sql = "SELECT * FROM FUNC_GetALLItemsCore()";
             Statement stmt = conn.createStatement();
@@ -32,7 +35,7 @@ public class ItemManager
                 String classCode = rs.getString("reservedClassCode");
                 String itemSizeCode = rs.getString("sizeCode");
 
-                ArrayList<ItemStatDTO> itemBaseStats = getItemBaseStats(itemTypeCode);
+                ArrayList<StatDTO> itemBaseStats = getItemBaseStats(itemTypeCode);
                 ArrayList<ItemModifierDTO> itemModifiers = getItemModifiers(itemId);
                 ItemDTO itemDTO = new ItemDTO(itemId, itemName, itemQualityCode, itemRarityCode, itemTypeCode, classCode, itemSizeCode, itemBaseStats, itemModifiers);
                 items.add(itemDTO);
@@ -46,11 +49,11 @@ public class ItemManager
         return items;
     }
 
-    private ArrayList<ItemStatDTO> getItemBaseStats(String itemTypeCode)
+    private ArrayList<StatDTO> getItemBaseStats(String itemTypeCode)
     {
-        ArrayList<ItemStatDTO> itemBaseStats = new ArrayList<ItemStatDTO>();
+        ArrayList<StatDTO> itemBaseStats = new ArrayList<StatDTO>();
 
-        try (Connection conn = DriverManager.getConnection(dbPath, dbUsername, dbPassword))
+        try (Connection conn = DriverManager.getConnection(dbInfo.dbPath, dbInfo.dbUsername, dbInfo.dbPassword))
         {
             String sql = "SELECT * FROM FUNC_GetItemStats('" + itemTypeCode + "')";
             Statement stmt = conn.createStatement();
@@ -62,7 +65,7 @@ public class ItemManager
                 String itemStatCode = rs.getString("statCode");
                 String itemStatValue = rs.getString("value");
 
-                ItemStatDTO itemBaseStat = new ItemStatDTO();
+                StatDTO itemBaseStat = new StatDTO();
                 itemBaseStats.add(itemBaseStat);
             }
         }
@@ -78,7 +81,7 @@ public class ItemManager
     {
         ArrayList<ItemModifierDTO> itemModifiers = new ArrayList<ItemModifierDTO>();
 
-        try (Connection conn = DriverManager.getConnection(dbPath, dbUsername, dbPassword))
+        try (Connection conn = DriverManager.getConnection(dbInfo.dbPath, dbInfo.dbUsername, dbInfo.dbPassword))
         {
             String sql = "SELECT * FROM FUNC_GetItemModifiers(" + itemId + ")";
             Statement stmt = conn.createStatement();
