@@ -1,4 +1,4 @@
-package DataAccess.Spells;
+package DataAccess.Skills;
 
 public class SkillDTO
 {

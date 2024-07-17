@@ -1,9 +1,8 @@
 package DataAccess.Monsters;
 
 import DataAccess.DBInfo;
-import DataAccess.Items.ItemModifierDTO;
 import DataAccess.Items.StatDTO;
-import DataAccess.Spells.SkillDTO;
+import DataAccess.Skills.SkillDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
