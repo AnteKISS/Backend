@@ -4,9 +4,10 @@ RUN apt-get update && apt-get install -y git
 
 WORKDIR /app
 
-RUN git clone -b ProgressionGUI https://github.com/AnteKISS/Frontend.git .
+RUN git clone -b merge https://github.com/AnteKISS/Frontend.git .
 RUN git pull
 
+RUN npm install keycloak-js
 RUN npm install
 
 EXPOSE 8080
