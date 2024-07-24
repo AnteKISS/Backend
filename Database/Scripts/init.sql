@@ -10,29 +10,30 @@
 /******************************************/
 
 -- Character/Stats
-\include Stored_Procs/PROC_AddAttribute.sql
-\include Stored_Procs/PROC_AddClass.sql
-\include Stored_Procs/PROC_AddClassAttribute.sql
-\include Stored_Procs/PROC_AddClassStat.sql
-\include Stored_Procs/PROC_AddStat.sql
+\include Stored_Procs/Base/PROC_AddAttribute.sql
+\include Stored_Procs/Base/PROC_AddClass.sql
+\include Stored_Procs/Base/PROC_AddClassAttribute.sql
+\include Stored_Procs/Base/PROC_AddClassStat.sql
+\include Stored_Procs/Base/PROC_AddStat.sql
 
 -- Items
-\include Stored_Procs/PROC_AddItem.sql
-\include Stored_Procs/PROC_AddItemBaseStats.sql
-\include Stored_Procs/PROC_AddItemFunction.sql
-\include Stored_Procs/PROC_AddItemModifier_ATTR.sql
-\include Stored_Procs/PROC_AddItemModifier_STAT.sql
-\include Stored_Procs/PROC_AddItemQuality.sql
-\include Stored_Procs/PROC_AddItemRarity.sql
-\include Stored_Procs/PROC_AddItemSize.sql
-\include Stored_Procs/PROC_AddItemSlot.sql
-\include Stored_Procs/PROC_AddItemStat.sql
-\include Stored_Procs/PROC_AddItemType.sql
-\include Stored_Procs/PROC_LinkItemSlotFunction.sql
+\include Stored_Procs/Item/PROC_AddItem.sql
+\include Stored_Procs/Item/PROC_AddItemBaseStats.sql
+\include Stored_Procs/Item/PROC_AddItemFunction.sql
+\include Stored_Procs/Item/PROC_AddItemModifier_ATTR.sql
+\include Stored_Procs/Item/PROC_AddItemModifier_STAT.sql
+\include Stored_Procs/Item/PROC_AddItemQuality.sql
+\include Stored_Procs/Item/PROC_AddItemRarity.sql
+\include Stored_Procs/Item/PROC_AddItemSize.sql
+\include Stored_Procs/Item/PROC_AddItemSlot.sql
+\include Stored_Procs/Item/PROC_AddItemStat.sql
+\include Stored_Procs/Item/PROC_AddItemType.sql
+\include Stored_Procs/Item/PROC_LinkItemSlotFunction.sql
 
 -- Monsters
-\include Stored_Procs/PROC_AddMonster.sql
-\include Stored_Procs/PROC_AddBaseMonster.sql
+\include Stored_Procs/Monster/PROC_AddMonster.sql
+\include Stored_Procs/Monster/PROC_AddBaseMonster.sql
+\include Stored_Procs/Monster/PROC_AddMonsterBaseStats.sql
 
 -- Data Insertion
 \include Stored_Procs/PROC_InsertItems.sql
