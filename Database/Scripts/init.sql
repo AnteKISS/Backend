@@ -568,6 +568,20 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE PROCEDURE PROC_AddModifierToItem
+(
+	item_Id INT,
+	itemModifier_Code VARCHAR(25),
+	modifier_Value NUMERIC(15,2)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+	INSERT INTO ItemItemModifier(itemId,  itemModifierCode, modifierValue)
+	VALUES					            (item_Id, itemModifier_Code, modifier_Value);
+END;
+$$;
+
 CREATE OR REPLACE PROCEDURE PROC_AddItemQuality
 (
 	itemQuality_Code VARCHAR(25),
@@ -999,6 +1013,7 @@ BEGIN
 	
 	-- Item Modifiers
 	CALL PROC_AddItemModifier_STAT('INC_ATK_SPEED', 'Increased Attack Speed', 'ATTACK_SPEED');
+  CALL PROC_AddItemModifier_STAT('INC_DAMAGE', 'Increased Damage', 'DAMAGE');
 	CALL PROC_AddItemModifier_STAT('MIN_FLAT_DAMAGE_FIRE', 'Minimum Fire Damage', 'MIN_DAMAGE_FIRE');
 	CALL PROC_AddItemModifier_STAT('MIN_FLAT_DAMAGE_COLD', 'Minimum Cold Damage', 'MIN_DAMAGE_COLD');
 	CALL PROC_AddItemModifier_STAT('MIN_FLAT_DAMAGE_LIGHT', 'Minimum LIghtning Damage', 'MIN_DAMAGE_LIGHT');
@@ -1047,6 +1062,7 @@ BEGIN
 	CALL PROC_AddItem('Long Bow', 'NOR', 'NOR', 'LONG_BOW', 'NONE');
 	
 	-- Items - Magical
+  CALL PROC_AddItem('Lethal Dagger', 'NOR', 'MAG', 'DAGGER', 'NONE');
 	-- Items - Rare
 	-- Items - Set
 	-- Items - Unique
@@ -1082,6 +1098,9 @@ BEGIN
   CALL PROC_AddItemBaseStat('KNIGHT_HELM', 'DEFENSE', 30.0);
 
   CALL PROC_AddItemBaseStat('SML_SHIELD', 'DEFENSE', 30.0);
+
+  -- Assign modifiers to Items
+  CALL PROC_AddModifierToItem(22, 'INC_DAMAGE', 5.0);
 END;
 $$;
 
