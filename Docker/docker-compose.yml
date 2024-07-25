@@ -9,7 +9,7 @@ services:
     environment:
       - NODE_ENV=production
     restart: always
-  
+
   auth:
     image: quay.io/keycloak/keycloak:19.0.3
     container_name: auth
