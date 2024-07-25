@@ -10,4 +10,10 @@ public class ItemModifierDTO
         itemModifierCode = "";
         modifierValue = 0;
     }
+
+    public ItemModifierDTO(String itemModifierCode, float modifierValue)
+    {
+        this.itemModifierCode = itemModifierCode;
+        this.modifierValue = modifierValue;
+    }
 }

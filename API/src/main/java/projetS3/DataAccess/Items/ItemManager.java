@@ -94,7 +94,7 @@ public class ItemManager
                 String itemModifierCode = rs.getString("itemModifierCode");
                 float modifierValue = rs.getFloat("modifierValue");
 
-                ItemModifierDTO itemModifier = new ItemModifierDTO();
+                ItemModifierDTO itemModifier = new ItemModifierDTO(itemModifierCode, modifierValue);
                 itemModifiers.add(itemModifier);
             }
         }
