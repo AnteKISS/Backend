@@ -215,6 +215,7 @@ CREATE TABLE SkillTreeDependencies(
    skillTreeCode VARCHAR(25) ,
    skillCode VARCHAR(25) ,
    requiredLevel INTEGER NOT NULL,
+   parentSkillCode VARCHAR(25) ,
    PRIMARY KEY(skillTreeCode, skillCode),
    FOREIGN KEY(skillTreeCode) REFERENCES SkillTree(skillTreeCode),
    FOREIGN KEY(skillCode) REFERENCES Skill(skillCode)
@@ -304,7 +305,7 @@ CREATE TABLE ActiveEffectBaseStat(
    FOREIGN KEY(activeEffectCode) REFERENCES ActiveEffect(activeEffectCode)
 );
 
-CREATE TABLE ItemFunctionItemSlot(
+CREATE TABLE ItemTypeItemSlot(
    itemSlotCode VARCHAR(25) ,
    itemFunctionCode VARCHAR(25) ,
    PRIMARY KEY(itemSlotCode, itemFunctionCode),
@@ -351,6 +352,7 @@ CREATE TABLE ItemModifierAttribute(
 CREATE TABLE MonsterBaseStats(
    statCode VARCHAR(25) ,
    monsterId INTEGER,
+   statValue NUMERIC(15,2)   NOT NULL,
    PRIMARY KEY(statCode, monsterId),
    FOREIGN KEY(statCode) REFERENCES Stats(statCode),
    FOREIGN KEY(monsterId) REFERENCES Monster(monsterId)

@@ -34,6 +34,9 @@
 \include Stored_Procs/Monster/PROC_AddMonster.sql
 \include Stored_Procs/Monster/PROC_AddBaseMonster.sql
 \include Stored_Procs/Monster/PROC_AddMonsterBaseStats.sql
+\include Stored_Procs/Monster/PROC_AddModifierToMonster.sql
+\include Stored_Procs/Monster/PROC_AddMonsterModifier.sql
+\include Stored_Procs/Monster/PROC_AddLinkModifierStat.sql
 
 -- Data Insertion
 \include Stored_Procs/PROC_InsertItems.sql
