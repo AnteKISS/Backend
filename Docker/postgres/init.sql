@@ -983,7 +983,7 @@ BEGIN
 	CALL PROC_AddItemType('BODKIN_ARROW', 'Bodkin Arrows', 'VMED', 'ARRO');
 
 	CALL PROC_AddItemType('RING', 'RING', 'XSML', 'RING');
-	CALL PROC_AddItemType('NECKLACE', 'Necklace', 'HSML', 'NECK');
+	CALL PROC_AddItemType('NECKLACE', 'Necklace', 'XSML', 'NECK');
 	
 	-- Item Rarities
 	CALL PROC_AddItemRarity('NOR', 'Normal');
