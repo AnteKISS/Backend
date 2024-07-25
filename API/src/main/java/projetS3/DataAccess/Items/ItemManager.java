@@ -91,7 +91,7 @@ public class ItemManager
 
             while (rs.next())
             {
-                String itemModifierCode = rs.getString("itemModifierCode");
+                String itemModifierCode = rs.getString("modifierCode");
                 float modifierValue = rs.getFloat("modifierValue");
 
                 ItemModifierDTO itemModifier = new ItemModifierDTO(itemModifierCode, modifierValue);
