@@ -32,12 +32,13 @@ public class ItemManager
                 String itemQualityCode = rs.getString("qualityCode");
                 String itemRarityCode = rs.getString("rarityCode");
                 String itemTypeCode = rs.getString("typeCode");
+                String itemSlotCode = rs.getString("slotCode");
                 String classCode = rs.getString("reservedClassCode");
                 String itemSizeCode = rs.getString("sizeCode");
 
                 ArrayList<StatDTO> itemBaseStats = getItemBaseStats(itemTypeCode);
                 ArrayList<ItemModifierDTO> itemModifiers = getItemModifiers(itemId);
-                ItemDTO itemDTO = new ItemDTO(itemId, itemName, itemQualityCode, itemRarityCode, itemTypeCode, classCode, itemSizeCode, itemBaseStats, itemModifiers);
+                ItemDTO itemDTO = new ItemDTO(itemId, itemName, itemQualityCode, itemRarityCode, itemTypeCode, classCode, itemSizeCode, itemSlotCode, itemBaseStats, itemModifiers);
                 items.add(itemDTO);
             }
         }

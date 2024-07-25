@@ -6,6 +6,7 @@ RETURNS TABLE
 	qualityCode VARCHAR(25), 
 	rarityCode VARCHAR(25),
 	typeCode VARCHAR(25),
+  slotCode VARCHAR(25),
 	reservedClassCode VARCHAR(25),
 	sizeCode VARCHAR(25)
 ) 
@@ -18,12 +19,14 @@ BEGIN
 			itemQuality.itemQualityCode, 
 			itemRarity.itemRarityCode,
 			itemType.itemTypeCode,
+      itemTypeItemSlot.itemSlotcode,
 			class.classCode AS reservedClassCode,
 			itemType.itemSizeCode
     FROM item
 		INNER JOIN itemQuality ON itemQuality.itemQualityCode = item.itemQualityCode
 		INNER JOIN itemRarity ON itemRarity.itemRarityCode = item.itemRarityCode
 		INNER JOIN itemType ON itemType.itemTypeCode = item.itemTypeCode
+    INNER JOIN itemTypeItemSlot ON itemTypeItemSlot.itemTypeCode = itemType.itemTypeCode
 		LEFT JOIN class ON class.classCode = item.classCode;
 END;
 $$;

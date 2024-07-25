@@ -9,6 +9,7 @@ public class ItemDTO
     public String itemQualityCode;
     public String itemRarityCode;
     public String itemTypeCode;
+    public String itemSlotCode;
     public String classCode;
     public String itemSizeCode;
 
@@ -24,11 +25,12 @@ public class ItemDTO
         itemTypeCode = "";
         classCode = "";
         itemSizeCode = "";
+        itemSlotCode = "";
         itemBaseStats = new ArrayList<StatDTO>();
         itemModifiers = new ArrayList<ItemModifierDTO>();
     }
 
-    public ItemDTO(int itemId, String itemName, String itemQualityCode, String itemRarityCode, String itemTypeCode, String classCode, String itemSizeCode, ArrayList<StatDTO> itemBaseStats, ArrayList<ItemModifierDTO> itemModifiers)
+    public ItemDTO(int itemId, String itemName, String itemQualityCode, String itemRarityCode, String itemTypeCode, String classCode, String itemSizeCode, String itemSlotCode, ArrayList<StatDTO> itemBaseStats, ArrayList<ItemModifierDTO> itemModifiers)
     {
         this.itemId = itemId;
         this.itemName = itemName;
@@ -37,6 +39,7 @@ public class ItemDTO
         this.itemTypeCode = itemTypeCode;
         this.classCode = classCode;
         this.itemSizeCode = itemSizeCode;
+        this.itemSlotCode = itemSlotCode;
         this.itemBaseStats = itemBaseStats;
         this.itemModifiers = itemModifiers;
     }

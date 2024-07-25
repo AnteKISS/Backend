@@ -918,6 +918,7 @@ BEGIN
 	-- Item Slots
 	CALL PROC_AddItemSlot('LFIN', 'Left Finger');
 	CALL PROC_AddItemSlot('RFIN', 'Right Finger');
+  CALL PROC_AddItemSlot('FING', 'Finger');
 	CALL PROC_AddItemSlot('NECK', 'Neck');
 	CALL PROC_AddItemSlot('CHES', 'Chest');
 	CALL PROC_AddItemSlot('HAND', 'Hands');
@@ -928,8 +929,7 @@ BEGIN
 	CALL PROC_AddItemSlot('HEAD', 'Head');
 	
 	-- Tie Item Slots and Functions
-	CALL PROC_LinkItemSlotFunction('LFIN', 'RING');
-	CALL PROC_LinkItemSlotFunction('RFIN', 'RING');
+	CALL PROC_LinkItemSlotFunction('FING', 'RING');
 	CALL PROC_LinkItemSlotFunction('NECK', 'NECK');
 	CALL PROC_LinkItemSlotFunction('CHES', 'CHES');
 	CALL PROC_LinkItemSlotFunction('HAND', 'GLOV');
@@ -954,15 +954,34 @@ BEGIN
 	
 	-- Item Types
 	CALL PROC_AddItemType('SHORT_1H_SWORD', 'Short One Handed Sword', 'VMED', '1HAN');
+  CALL PROC_AddItemType('BONE_SWORD', 'Bone Sword', 'VMED', '1HAN');
+  CALL PROC_AddItemType('KOPIS', 'Kopis', 'VMED', '1HAN');
 	CALL PROC_AddItemType('DAGGER', 'Dagger', 'VSML', '1HAN');
 	CALL PROC_AddITemType('GREAT_STAFF', 'Great Staff', 'XLAR', '2HAN');
+
 	CALL PROC_AddItemType('SML_SHIELD', 'Small Shield', 'SMED', 'SHIE');
+
+  CALL PROC_AddItemType('CHAINMAIL_HELM', 'Chainmail Helm', 'SMED', 'HELM');
+  CALL PROC_AddItemType('KNIGHT_HELM', 'Knight Helmet', 'SMED', 'HELM');
+  CALL PROC_AddItemType('LEATHER_HELM', 'Leather Helmet', 'SMED', 'HELM');
+
 	CALL PROC_AddItemType('LEATHER_CHEST', 'Leather Chestplate', 'SLAR', 'CHES');
+  CALL PROC_AddItemType('CHAINMAIL_CHEST', 'Chaimmail Chestplate', 'SLAR', 'CHES');
+
 	CALL PROC_AddItemType('LEATHER_GLOVES', 'Leather Gloves', 'SMED', 'GLOV');
+  CALL PROC_AddItemType('CHAINMAIL_GLOVES', 'Chainmail Gloves', 'SMED', 'GLOV');
+
+  CALL PROC_AddItemType('LEATHER_BOOTS', 'Leather Boots', 'SMED', 'BOOT');
 	CALL PROC_AddItemType('HIDE_BOOTS', 'Hide Boots', 'SMED', 'BOOT');
+  CALL PROC_AddItemType('CHAINMAIL_BOOTS', 'Chainmail Boots', 'SMED', 'BOOT');
+
+  CALL PROC_AddItemType('LEATHER_BELT', 'Leather Belt', 'HSML', 'BELT');
 	CALL PROC_AddItemType('HEAVY_BELT', 'Heavy Belt', 'HSML', 'BELT');
+  CALL PROC_AddItemType('CHAINMAIL_BELT', 'Chainmail Belt', 'HSML', 'BELT');
+  
 	CALL PROC_AddItemType('LONG_BOW', 'Long Bow', 'XLAR', 'BOWS');
 	CALL PROC_AddItemType('BODKIN_ARROW', 'Bodkin Arrows', 'VMED', 'ARRO');
+
 	CALL PROC_AddItemType('RING', 'RING', 'XSML', 'RING');
 	CALL PROC_AddItemType('NECKLACE', 'Necklace', 'HSML', 'NECK');
 	
@@ -991,13 +1010,40 @@ BEGIN
 	CALL PROC_AddItemStat('ATK_SPEED_MOD', 'Attack Speed Modifier');
 	CALL PROC_AddItemStat('MIN_DAMAGE', 'Minimum Damage');
 	CALL PROC_AddItemStat('MAX_DAMAGE', 'Maximum Damage');
+  CALL PROC_AddItemStat('DAMAGE', 'Damage');
 	CALL PROC_AddItemStat('MAX_SOCKETS', 'Maximum Sockets');
+  CALL PROC_AddItemStat('DEFENSE', 'Defense');
+  CALL PROC_AddItemStat('MOV_SPEED_MOD', 'Movement Speed Modifier');
 	
 	-- Items - Normal
-	CALL PROC_AddItem('Short Sword', 'NOR', 'NOR', 'SHORT_1H_SWORD', 'NONE');
-	CALL PROC_AddItem('Small Shield', 'NOR', 'NOR', 'SML_SHIELD', 'NONE');
-	CALL PROC_AddItem('Leather Armor', 'NOR', 'NOR', 'LEATHER_CHEST', 'NONE');
-	CALL PROC_AddItem('Dagger', 'NOR', 'NOR', 'DAGGER', 'NONE');
+	CALL PROC_AddItem('Bone Sword', 'NOR', 'NOR', 'SHORT_1H_SWORD', 'NONE');
+  CALL PROC_AddItem('Golden Kopis', 'NOR', 'NOR', 'SHORT_1H_SWORD', 'NONE');
+  CALL PROC_AddItem('Dagger', 'NOR', 'NOR', 'DAGGER', 'NONE');
+
+  CALL PROC_AddItem('Talisman of Baphomet', 'NOR', 'NOR', 'NECKLACE', 'NONE');
+  CALL PROC_AddItem('Temple Amulet', 'NOR', 'NOR', 'NECKLACE', 'NONE');
+  CALL PROC_AddItem('Bronze Ring', 'NOR', 'NOR', 'RING', 'NONE');
+  CALL PROC_AddItem('Silver Ring', 'NOR', 'NOR', 'RING', 'NONE');
+  CALL PROC_AddItem('Gold Ring', 'NOR', 'NOR', 'RING', 'NONE');
+
+  CALL PROC_AddItem('Leather Armor', 'NOR', 'NOR', 'LEATHER_CHEST', 'NONE');
+  CALL PROC_AddItem('Chainmail Armor', 'NOR', 'NOR', 'CHAINMAIL_CHEST', 'NONE');
+
+  CALL PROC_AddItem('Chainmail Belt', 'NOR', 'NOR', 'CHAINMAIL_BELT', 'NONE');
+  CALL PROC_AddItem('Leather Belt', 'NOR', 'NOR', 'LEATHER_BELT', 'NONE');
+
+  CALL PROC_AddItem('Leather Boots', 'NOR', 'NOR', 'LEATHER_BOOTS', 'NONE');
+	CALL PROC_AddItem('Chainmail Boots', 'NOR', 'NOR', 'CHAINMAIL_BOOTS', 'NONE');
+
+  CALL PROC_AddItem('Leather Gloves', 'NOR', 'NOR', 'LEATHER_GLOVES', 'NONE');
+  CALL PROC_AddItem('Chainmail Gloves', 'NOR', 'NOR', 'CHAINMAIL_GLOVES', 'NONE');
+
+  CALL PROC_AddItem('Leather Hood', 'NOR', 'NOR', 'LEATHER_HELM', 'NONE');
+  CALL PROC_AddItem('Chainmail Hood', 'NOR', 'NOR', 'CHAINMAIL_HELM', 'NONE');
+  CALL PROC_AddItem('Knight Helmet', 'NOR', 'NOR', 'KNIGHT_HELM', 'NONE');
+
+  CALL PROC_AddItem('Wooden Shield', 'NOR', 'NOR', 'SML_SHIELD', 'NONE');
+	
 	CALL PROC_AddItem('Long Bow', 'NOR', 'NOR', 'LONG_BOW', 'NONE');
 	
 	-- Items - Magical
@@ -1006,7 +1052,36 @@ BEGIN
 	-- Items - Unique
 	
 	-- Assign Stats to Items
-	CALL PROC_AddItemBaseStat('SHORT_1H_SWORD', 'ATK_SPEED_MOD', 20.0);
+	CALL PROC_AddItemBaseStat('BONE_SWORD', 'ATK_SPEED_MOD', 20.0);
+  CALL PROC_AddItemBaseStat('BONE_SWORD', 'DAMAGE', 10.0);
+
+  CALL PROC_AddItemBaseStat('KOPIS', 'ATK_SPEED_MOD', 20.0);
+  CALL PROC_AddItemBaseStat('KOPIS', 'DAMAGE', 15.0);
+
+  CALL PROC_AddItemBaseStat('DAGGER', 'ATK_SPEED_MOD', 40.0);
+  CALL PROC_AddItemBaseStat('DAGGER', 'DAMAGE', 5.0);
+
+  CALL PROC_AddItemBaseStat('NECKLACE', 'MOV_SPEED_MOD', 40.0);
+
+  CALL PROC_AddItemBaseStat('RING', 'MOV_SPEED_MOD', 20.0);
+
+  CALL PROC_AddItemBaseStat('LEATHER_CHEST', 'DEFENSE', 15.0);
+  CALL PROC_AddItemBaseStat('CHAINMAIL_CHEST', 'DEFENSE', 40.0);
+  
+  CALL PROC_AddItemBaseStat('LEATHER_BELT', 'DEFENSE', 5.0);
+  CALL PROC_AddItemBaseStat('CHAINMAIL_BELT', 'DEFENSE', 10.0);
+
+  CALL PROC_AddItemBaseStat('LEATHER_BOOTS', 'DEFENSE', 8.0);
+  CALL PROC_AddItemBaseStat('CHAINMAIL_BOOTS', 'DEFENSE', 15.0);
+
+  CALL PROC_AddItemBaseStat('LEATHER_GLOVES', 'DEFENSE', 8.0);
+  CALL PROC_AddItemBaseStat('CHAINMAIL_GLOVES', 'DEFENSE', 15.0);
+
+  CALL PROC_AddItemBaseStat('LEATHER_HELM', 'DEFENSE', 10.0);
+  CALL PROC_AddItemBaseStat('CHAINMAIL_HELM', 'DEFENSE', 20.0);
+  CALL PROC_AddItemBaseStat('KNIGHT_HELM', 'DEFENSE', 30.0);
+
+  CALL PROC_AddItemBaseStat('SML_SHIELD', 'DEFENSE', 30.0);
 END;
 $$;
 
@@ -1023,6 +1098,7 @@ RETURNS TABLE
 	qualityCode VARCHAR(25), 
 	rarityCode VARCHAR(25),
 	typeCode VARCHAR(25),
+  	slotCode VARCHAR(25),
 	reservedClassCode VARCHAR(25),
 	sizeCode VARCHAR(25)
 ) 
@@ -1035,12 +1111,15 @@ BEGIN
 			itemQuality.itemQualityCode, 
 			itemRarity.itemRarityCode,
 			itemType.itemTypeCode,
+      		itemTypeItemSlot.itemSlotcode,
 			class.classCode AS reservedClassCode,
 			itemType.itemSizeCode
     FROM item
 		INNER JOIN itemQuality ON itemQuality.itemQualityCode = item.itemQualityCode
 		INNER JOIN itemRarity ON itemRarity.itemRarityCode = item.itemRarityCode
 		INNER JOIN itemType ON itemType.itemTypeCode = item.itemTypeCode
+		INNER JOIN itemFunction ON itemFunction.itemFunctionCode = itemType.itemFunctionCode
+    	INNER JOIN itemTypeItemSlot ON itemTypeItemSlot.itemFunctionCode = itemFunction.itemFunctionCode
 		LEFT JOIN class ON class.classCode = item.classCode;
 END;
 $$;
