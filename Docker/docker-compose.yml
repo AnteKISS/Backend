@@ -1,14 +1,14 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    container_name: frontend
-    ports:
-      - "8080:8080"
-    environment:
-      - NODE_ENV=production
-    restart: always
+  #app:
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile.frontend
+  #  container_name: frontend
+  #  ports:
+  #    - "8080:8080"
+  #  environment:
+  #    - NODE_ENV=production
+  #  restart: always
 
   auth:
     image: quay.io/keycloak/keycloak:19.0.3
