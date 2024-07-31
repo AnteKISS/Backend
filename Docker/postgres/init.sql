@@ -1,6 +1,6 @@
 -- Script : init.sql
 
--- USAGE : \i '{PATH_TO_FILE}/init.sql'
+-- USAGE : \i '{PATH_TO_FILE}/init.sql' OR Press button in pgAdmin
 
 /******************************************/
 /***        DATABASE STRUCTURE          ***/
@@ -112,9 +112,10 @@ CREATE TABLE ProcType(
 );
 
 CREATE TABLE BaseMonster(
-   baseMonsterId SERIAL,
+   baseMonsterCode VARCHAR(25) ,
    baseMonsterName VARCHAR(50)  NOT NULL,
-   PRIMARY KEY(baseMonsterId),
+   baseExp INTEGER NOT NULL,
+   PRIMARY KEY(baseMonsterCode),
    UNIQUE(baseMonsterName)
 );
 
@@ -180,13 +181,13 @@ CREATE TABLE ItemType(
 );
 
 CREATE TABLE Monster(
-   monsterId SERIAL,
+   monsterCode VARCHAR(25) ,
    monsterName VARCHAR(50)  NOT NULL,
-   baseMonsterId INTEGER NOT NULL,
+   baseMonsterCode VARCHAR(25)  NOT NULL,
    monsterQualityCode VARCHAR(25)  NOT NULL,
-   PRIMARY KEY(monsterId),
+   PRIMARY KEY(monsterCode),
    UNIQUE(monsterName),
-   FOREIGN KEY(baseMonsterId) REFERENCES BaseMonster(baseMonsterId),
+   FOREIGN KEY(baseMonsterCode) REFERENCES BaseMonster(baseMonsterCode),
    FOREIGN KEY(monsterQualityCode) REFERENCES MonsterQuality(monsterQualityCode)
 );
 
@@ -358,11 +359,11 @@ CREATE TABLE ItemModifierAttribute(
 
 CREATE TABLE MonsterBaseStats(
    statCode VARCHAR(25) ,
-   monsterId INTEGER,
+   monsterCode VARCHAR(25) ,
    statValue NUMERIC(15,2)   NOT NULL,
-   PRIMARY KEY(statCode, monsterId),
+   PRIMARY KEY(statCode, monsterCode),
    FOREIGN KEY(statCode) REFERENCES Stats(statCode),
-   FOREIGN KEY(monsterId) REFERENCES Monster(monsterId)
+   FOREIGN KEY(monsterCode) REFERENCES Monster(monsterCode)
 );
 
 CREATE TABLE MonsterModifierBaseStat(
@@ -375,35 +376,48 @@ CREATE TABLE MonsterModifierBaseStat(
 );
 
 CREATE TABLE MonsterMonsterModifier(
-   monsterId INTEGER,
+   monsterCode VARCHAR(25) ,
    monsterModifierCode VARCHAR(25) ,
-   PRIMARY KEY(monsterId, monsterModifierCode),
-   FOREIGN KEY(monsterId) REFERENCES Monster(monsterId),
+   PRIMARY KEY(monsterCode, monsterModifierCode),
+   FOREIGN KEY(monsterCode) REFERENCES Monster(monsterCode),
    FOREIGN KEY(monsterModifierCode) REFERENCES MonsterModifier(monsterModifierCode)
 );
 
 CREATE TABLE BaseMonsterSkill(
-   skillCode VARCHAR(25) ,
-   baseMonsterId INTEGER,
+   skillCode VARCHAR(25),
+   baseMonsterCode VARCHAR(25),
    level INTEGER NOT NULL,
-   PRIMARY KEY(skillCode, baseMonsterId),
+   PRIMARY KEY(skillCode, baseMonsterCode),
    FOREIGN KEY(skillCode) REFERENCES Skill(skillCode),
-   FOREIGN KEY(baseMonsterId) REFERENCES BaseMonster(baseMonsterId)
+   FOREIGN KEY(baseMonsterCode) REFERENCES BaseMonster(baseMonsterCode)
 );
 
 CREATE TABLE ItemBaseStats(
-   ItemTypeCode VARCHAR(25) ,
-   itemStatCode VARCHAR(25) ,
-   statValue NUMERIC(15,2)   NOT NULL,
+   ItemTypeCode VARCHAR(25),
+   itemStatCode VARCHAR(25),
+   statValue NUMERIC(15,2) NOT NULL,
    PRIMARY KEY(ItemTypeCode, itemStatCode),
    FOREIGN KEY(ItemTypeCode) REFERENCES ItemType(ItemTypeCode),
    FOREIGN KEY(itemStatCode) REFERENCES ItemStat(itemStatCode)
 );
 
-
 /******************************************/
 /***        STORED PROCEDURES           ***/
 /******************************************/
+
+-- Players
+CREATE OR REPLACE PROCEDURE PROC_AddPlayer
+(
+	user_name VARCHAR(50),
+	save_path VARCHAR(100)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+	INSERT INTO Player(username,  savepath)
+	VALUES			      (user_name, save_path);
+END;
+$$;
 
 -- Character/Stats
 CREATE OR REPLACE PROCEDURE PROC_AddAttribute
@@ -678,69 +692,71 @@ $$;
 -- Monsters
 CREATE OR REPLACE PROCEDURE PROC_AddBaseMonster
 (
-	monster_Name VARCHAR(50)
+  monster_Code VARCHAR(25),
+	monster_Name VARCHAR(50),
+  base_exp INTEGER
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	INSERT INTO BaseMonster(baseMonsterName)
-	VALUES			       (monster_Name);
+	INSERT INTO BaseMonster(baseMonsterCode, baseMonsterName, baseExp)
+	VALUES			           (monster_Code, monster_Name, base_exp);
 END;
 $$;
 
 CREATE OR REPLACE PROCEDURE PROC_AddBaseMonsterSkill
 (
 	skill_Code VARCHAR(25),
-	baseMonster_Id INT,
+	baseMonster_Code VARCHAR(25),
 	skill_Level INT
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	INSERT INTO BaseMonsterSkill(skillCode, baseMonsterId, level)
-	VALUES			            (skill_Code, baseMonster_Id, skill_Level);
+	INSERT INTO BaseMonsterSkill(skillCode, baseMonsterCode, level)
+	VALUES			            (skill_Code, baseMonster_Code, skill_Level);
 END;
 $$;
 
 CREATE OR REPLACE PROCEDURE PROC_AddModifierToMonster
 (
-	monster_Id INT,
-	monsterModifier_Code VARCHAR(25),
-	modifier_Value VARCHAR(50)
+	monster_Code VARCHAR(25),
+	monsterModifier_Code VARCHAR(25)
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	INSERT INTO MonsterMonsterModifier(monsterId, monsterModifierCode, modifierValue)
-	VALUES			                  (monster_Id, monsterModifier_Code, modifier_Value);
+	INSERT INTO MonsterMonsterModifier(monsterCode, monsterModifierCode)
+	VALUES			                  (monster_Code, monsterModifier_Code);
 END;
 $$;
 
 CREATE OR REPLACE PROCEDURE PROC_AddMonster
 (
+  monster_Code VARCHAR(25),
 	monster_Name VARCHAR(50),
-	baseMonster_Id NUMERIC,
+	baseMonster_Code VARCHAR(25),
 	monsterQuality_Code VARCHAR(25)
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	INSERT INTO Monster(monsterName,  baseMonsterId,  monsterQualityCode)
-	VALUES			   (monster_Name, baseMonster_Id, monsterQuality_Code);
+	INSERT INTO Monster(monsterCode, monsterName,  baseMonsterCode,  monsterQualityCode)
+	VALUES			       (monster_Code, monster_Name, baseMonster_Code, monsterQuality_Code);
 END;
 $$;
 
 CREATE OR REPLACE PROCEDURE PROC_AddMonsterBaseStats
 (
 	stat_Code VARCHAR(25),
-	monster_Id INT,
+	monster_Code VARCHAR(25),
 	stat_Value NUMERIC(15,2)
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	INSERT INTO MonsterBaseStats(statCode, monsterId, statValue)
-	VALUES			                   (stat_Code, monster_Id, stat_Value);
+	INSERT INTO MonsterBaseStats(statCode, monsterCode, statValue)
+	VALUES			                   (stat_Code, monster_Code, stat_Value);
 END;
 $$;
 
@@ -866,13 +882,23 @@ END;
 $$;
 
 -- Data Insertion
-CREATE OR REPLACE PROCEDURE PROC_InsertItems
+CREATE OR REPLACE PROCEDURE PROC_InsertData
 (
 	
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
+  /*******************************************/
+	/***               Players               ***/
+	/*******************************************/
+
+  CALL PROC_AddPlayer('sims3007', '../../../../../../Save/sims3007');
+  CALL PROC_AddPlayer('simw2402', '../../../../../../Save/simw2402');
+  CALL PROC_AddPlayer('simv2104', '../../../../../../Save/simv2104');
+  CALL PROC_AddPlayer('befg1702', '../../../../../../Save/befg1702');
+  CALL PROC_AddPlayer('malm1708', '../../../../../../Save/malm1708');
+
 	/*******************************************/
 	/***               Classes               ***/
 	/*******************************************/
@@ -1121,12 +1147,12 @@ BEGIN
 	/*******************************************/
 
   -- Base Monsters
-  CALL PROC_AddBaseMonster('Goblin Skirmisher');
-  CALL PROC_AddBaseMonster('Goblin Lumberjack');
-  CALL PROC_AddBaseMonster('Wyvern Composite');
-  CALL PROC_AddBaseMonster('Zombie');
-  CALL PROC_AddBaseMonster('Skeleton');
-  CALL PROC_AddBaseMonster('Minotaur');
+  CALL PROC_AddBaseMonster('GOBLIN','Goblin', 250);
+  CALL PROC_AddBaseMonster('GOBLIN_LUMBERJACK_BLACK','Goblin Lumberjack', 1000);
+  CALL PROC_AddBaseMonster('WYVERN_COMPOSITE','Wyvern Composite', 5000);
+  CALL PROC_AddBaseMonster('ZOMBIE','Zombie', 250);
+  CALL PROC_AddBaseMonster('SKELETON','Skeleton', 350);
+  CALL PROC_AddBaseMonster('MINOTAUR','Minotaur', 5000);
 
   -- Monster Qualities
   CALL PROC_AddMonsterQuality('NOR', 'Normal');
@@ -1136,43 +1162,60 @@ BEGIN
   CALL PROC_AddMonsterQuality('BOS', 'Boss');
 
   -- Monsters
-  CALL PROC_AddMonster('Goblin Skirmisher', 1, 'NOR');
-  CALL PROC_AddMonster('Goblin Lumberjack', 2, 'NOR');
-  CALL PROC_AddMonster('Wyvern Composite', 3, 'NOR');
-  CALL PROC_AddMonster('Zombie', 4, 'NOR');
-  CALL PROC_AddMonster('Skeleton', 5, 'NOR');
-  CALL PROC_AddMonster('Minotaur', 6, 'NOR');
+  CALL PROC_AddMonster('GOBLIN','Goblin', 'GOBLIN', 'NOR');
+  CALL PROC_AddMonster('GOBLIN_LUMBERJACK_BLACK','Goblin Lumberjack', 'GOBLIN_LUMBERJACK_BLACK', 'NOR');
+  CALL PROC_AddMonster('WYVERN_COMPOSITE','Wyvern Composite', 'WYVERN_COMPOSITE', 'NOR');
+  CALL PROC_AddMonster('ZOMBIE','Zombie', 'ZOMBIE', 'NOR');
+  CALL PROC_AddMonster('SKELETON','Skeleton', 'SKELETON', 'NOR');
+  CALL PROC_AddMonster('MINOTAUR','Minotaur', 'MINOTAUR', 'NOR');
+
+  -- Monsters - ELITE
+  CALL PROC_AddMonster('GAETAN','Gaetan', 'GOBLIN_LUMBERJACK_BLACK', 'ELI');
 
   -- Monster Stats
-  CALL PROC_AddMonsterBaseStats('HEALTH', 1, 60);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 1, 125);
-  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 1, 8);
-  CALL PROC_AddMonsterBaseStats('DAMAGE', 1, 10);
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN', 60);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'GOBLIN', 125);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GOBLIN', 8);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'GOBLIN', 10);
 
-  CALL PROC_AddMonsterBaseStats('HEALTH', 2, 120);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 2, 160);
-  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 2, 24);
-  CALL PROC_AddMonsterBaseStats('DAMAGE', 2, 15);
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN_LUMBERJACK_BLACK', 120);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'GOBLIN_LUMBERJACK_BLACK', 160);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GOBLIN_LUMBERJACK_BLACK', 24);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'GOBLIN_LUMBERJACK_BLACK', 15);
 
-  CALL PROC_AddMonsterBaseStats('HEALTH', 3, 250);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 3, 150);
-  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 3, 6);
-  CALL PROC_AddMonsterBaseStats('DAMAGE', 3, 50);
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'WYVERN_COMPOSITE', 250);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'WYVERN_COMPOSITE', 150);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'WYVERN_COMPOSITE', 6);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'WYVERN_COMPOSITE', 50);
 
-  CALL PROC_AddMonsterBaseStats('HEALTH', 4, 150);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 4, 75);
-  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 4, 6);
-  CALL PROC_AddMonsterBaseStats('DAMAGE', 4, 10);
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'ZOMBIE', 150);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'ZOMBIE', 75);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'ZOMBIE', 6);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'ZOMBIE', 10);
 
-  CALL PROC_AddMonsterBaseStats('HEALTH', 5, 100);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 5, 100);
-  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 5, 8);
-  CALL PROC_AddMonsterBaseStats('DAMAGE', 5, 15);
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'SKELETON', 100);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'SKELETON', 100);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'SKELETON', 8);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'SKELETON', 15);
 
-  CALL PROC_AddMonsterBaseStats('HEALTH', 6, 400);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 6, 150);
-  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 6, 10);
-  CALL PROC_AddMonsterBaseStats('DAMAGE', 6, 35);
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'MINOTAUR', 400);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'MINOTAUR', 150);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'MINOTAUR', 10);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'MINOTAUR', 35);
+
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'GAETAN', 200);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'GAETAN', 200);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GAETAN', 32);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'GAETAN', 15);
+
+  -- Monster Modifiers
+  CALL PROC_AddMonsterModifier('EXTRA_STRONG', 'Extra Strong');
+  CALL PROC_AddMonsterModifier('EXTRA_FAST', 'Extra Fast');
+  CALL PROC_AddMonsterModifier('EXTRA_DURABLE', 'Extra Durable');
+
+  -- Add Modifiers to Monsters (FOR INFO ONLY)
+  CALL PROC_AddModifierToMonster('GAETAN','EXTRA_FAST');
+  CALL PROC_AddModifierToMonster('GAETAN','EXTRA_DURABLE');
 END;
 $$;
 
@@ -1286,8 +1329,8 @@ $$;
 CREATE OR REPLACE FUNCTION FUNC_GetAllMonsters()
 RETURNS TABLE
 (
-	id INTEGER,
-	baseId INTEGER,
+	code VARCHAR(25),
+	baseCode VARCHAR(25),
 	name VARCHAR(50), 
 	baseName VARCHAR(50), 
 	qualityCode VARCHAR(25)
@@ -1296,34 +1339,35 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY 
-    SELECT 	Monster.monsterId,
-			BaseMonster.baseMonsterId,
+    SELECT 	Monster.monsterCode,
+			BaseMonster.baseMonsterCode,
 			Monster.monsterName,
 			BaseMonster.baseMonsterName, 
 			Monster.monsterQualityCode
     FROM Monster
-		INNER JOIN BaseMonster ON BaseMonster.baseMonsterId = Monster.baseMonsterId;
+		INNER JOIN BaseMonster ON BaseMonster.baseMonsterCode = Monster.baseMonsterCode;
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION FUNC_GetMonsterModifiers(monster_Id INTEGER)
+CREATE OR REPLACE FUNCTION FUNC_GetMonsterModifiers(monster_Code VARCHAR(25))
 RETURNS TABLE
 (
 	modifierCode VARCHAR(25),
-	modifierValue NUMERIC(15,2)
+	modifierName VARCHAR(50)
 ) 
 LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY 
     SELECT 	monsterMonsterModifier.monsterModifierCode,
-			monsterMonsterModifier.modifierValue
+			      MonsterModifier.monsterModifierName
     FROM monsterMonsterModifier
-    WHERE monsterMonsterModifier.monsterId = monster_Id;
+      INNER JOIN MonsterModifier ON MonsterModifier.monsterModifierCode = monsterMonsterModifier.monsterModifierCode
+    WHERE monsterMonsterModifier.monsterCode = monster_Code;
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION FUNC_GetMonsterStats(monster_Id INTEGER)
+CREATE OR REPLACE FUNCTION FUNC_GetMonsterStats(monster_Code VARCHAR(25))
 RETURNS TABLE
 (
 	statCode VARCHAR(25),
@@ -1336,11 +1380,11 @@ BEGIN
     SELECT 	monsterBaseStats.statCode,
 			monsterBaseStats.statValue
     FROM monsterBaseStats
-    WHERE monsterBaseStats.monsterId = monster_Id;
+    WHERE monsterBaseStats.monsterCode = monster_Code;
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION FUNC_GetMonsterSkills(baseMonster_Id INTEGER)
+CREATE OR REPLACE FUNCTION FUNC_GetMonsterSkills(baseMonster_Code VARCHAR(25))
 RETURNS TABLE
 (
 	skillCode VARCHAR(25),
@@ -1353,11 +1397,94 @@ BEGIN
     SELECT 	baseMonsterSkill.skillCode,
 			baseMonsterSkill.level
     FROM baseMonsterSkill
-    WHERE baseMonsterSkill.baseMonsterId = baseMonster_Id;
+    WHERE baseMonsterSkill.baseMonsterCode = baseMonster_Code;
+END;
+$$;
+
+-- Skills
+CREATE OR REPLACE FUNCTION FUNC_GetAllSkills()
+RETURNS TABLE
+(
+	skillCode VARCHAR(25),
+	skillName VARCHAR(50),
+  range_m INTEGER,
+  castTime_s NUMERIC(15,2),
+  baseCooldown_s NUMERIC(15,2),
+  perLevelCooldownModifier NUMERIC(15,2),
+  baseManaCost NUMERIC(15,2),
+  perLvlManaCostFactor NUMERIC(15,2),
+  perLvlManaCostModifier NUMERIC(15,2),
+  perLevelCooldownFactor NUMERIC(15,2)
+) 
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY 
+    SELECT 	Skill.skillCode,
+			      Skill.skillName,
+            Skill.range_m,
+            Skill.castTime_s,
+            Skill.baseCooldown_s,
+            Skill.perLevelCooldownModifier,
+            Skill.baseManaCost,
+            Skill.perLvlManaCostFactor,
+            Skill.perLvlManaCostModifier,
+            Skill.perLevelCooldownFactor
+    FROM Skill;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION FUNC_GetSkillDamages(skill_Code VARCHAR(25))
+RETURNS TABLE
+(
+	skillDamageCode VARCHAR(25),
+	baseScaling_pct NUMERIC(15,2),
+  baseDamage NUMERIC(15,2),
+  perLvlDamageModifier NUMERIC(15,2),
+  perLvlDamageFactor NUMERIC(15,2),
+  perLvlScalingModifier NUMERIC(15,2),
+  perLvlScalingFactor NUMERIC(15,2)
+) 
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY 
+    SELECT 	SkillDamage.skillDamageCode,
+			      SkillDamage.baseScaling_pct,
+            SkillDamage.baseDamage,
+            SkillDamage.perLvlDamageModifier,
+            SkillDamage.perLvlDamageFactor,
+            SkillDamage.perLvlScalingModifier,
+            SkillDamage.perLvlScalingFactor
+    FROM SkillSkillDamage
+      INNER JOIN SkillDamage ON SkillDamage.skillDamageCode = SkillSkillDamage.skillDamageCode
+    WHERE SkillSkillDamage.skillCode = skill_Code;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION FUNC_GetSkillActiveEffects(skill_Code VARCHAR(25))
+RETURNS TABLE
+(
+	activeEffect_Code VARCHAR(25),
+	baseValue NUMERIC(15,2),
+  perLvlValueModifier NUMERIC(15,2),
+  perLvlValueFactor NUMERIC(15,2)
+) 
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY 
+    SELECT 	ActiveEffect.activeEffect_Code,
+			      ActiveEffect.baseValue,
+            ActiveEffect.perLvlValueModifier,
+            ActiveEffect.perLvlValueFactor
+    FROM SkillActiveEffect
+      INNER JOIN ActiveEffect ON ActiveEffect.activeEffectCode = SkillActiveEffect.activeEffectCode
+    WHERE SkillActiveEffect.skillCode = skill_Code;
 END;
 $$;
 
 /******************************************/
 /***           DATA INSERTION           ***/
 /******************************************/
-CALL PROC_InsertItems();
+CALL PROC_InsertData();

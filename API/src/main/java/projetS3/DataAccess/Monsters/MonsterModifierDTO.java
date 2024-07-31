@@ -2,18 +2,18 @@ package projetS3.DataAccess.Monsters;
 
 public class MonsterModifierDTO
 {
-    public String itemModifierCode;
-    public float modifierValue;
+    public String modifierCode;
+    public String modifierName;
 
     public MonsterModifierDTO()
     {
-        itemModifierCode = "";
-        modifierValue = 0;
+        modifierCode = "";
+        modifierName = "";
     }
 
-    public MonsterModifierDTO(String itemModifierCode, float modifierValue)
+    public MonsterModifierDTO(String modifierCode, String modifierName)
     {
-        this.itemModifierCode = itemModifierCode;
-        this.modifierValue = modifierValue;
+        this.modifierCode = modifierCode;
+        this.modifierName = modifierName;
     }
 }

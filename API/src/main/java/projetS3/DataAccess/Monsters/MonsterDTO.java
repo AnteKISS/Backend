@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class MonsterDTO
 {
-    public int id;
+    public String code;
     public String name;
-    public String baseName;
+    public String baseCode;
     public String qualityCode;
     public ArrayList<StatDTO> monsterStats;
     public ArrayList<MonsterModifierDTO> monstersModifiers;
@@ -17,20 +17,20 @@ public class MonsterDTO
 
     public MonsterDTO()
     {
-        id = 0;
+        code = "";
         name = "";
-        baseName = "";
+        baseCode = "";
         qualityCode = "";
         monsterStats = new ArrayList<StatDTO>();
         monstersModifiers = new ArrayList<MonsterModifierDTO>();
         monsterSkills = new ArrayList<SkillDTO>();
     }
 
-    public MonsterDTO(int id, String name, String baseName, String qualityCode, ArrayList<StatDTO> monsterStats, ArrayList<MonsterModifierDTO> monsterModifiers, ArrayList<SkillDTO> monsterSkills)
+    public MonsterDTO(String code, String name, String baseCode, String qualityCode, ArrayList<StatDTO> monsterStats, ArrayList<MonsterModifierDTO> monsterModifiers, ArrayList<SkillDTO> monsterSkills)
     {
-        this.id = id;
+        this.code = code;
         this.name = name;
-        this.baseName = baseName;
+        this.baseCode = baseCode;
         this.qualityCode = qualityCode;
         this.monsterStats = monsterStats;
         this.monstersModifiers = monsterModifiers;

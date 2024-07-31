@@ -29,18 +29,17 @@ public class MonsterManager
 
             while (rs.next())
             {
-                int monsterId = rs.getInt("id");
-                int baseMonsterId = rs.getInt("baseId");
+                String monsterCode = rs.getString("code");
+                String baseMonsterCode = rs.getString("baseCode");
                 String monsterName = rs.getString("name");
-                String baseMonsterName = rs.getString("baseName");
                 String monsterQualityCode = rs.getString("qualityCode");
 
-                ArrayList<StatDTO> monsterBaseStats = getMonsterBaseStats(monsterId);
-                ArrayList<MonsterModifierDTO> monsterModifiers = getMonsterModifiers(monsterId);
+                ArrayList<StatDTO> monsterBaseStats = getMonsterBaseStats(monsterCode);
+                ArrayList<MonsterModifierDTO> monsterModifiers = getMonsterModifiers(monsterCode);
                 ArrayList<SkillDTO> monsterSkills = new ArrayList<SkillDTO>();
                 //ArrayList<SkillDTO> monsterSkills = getMonsterSkills(baseMonsterId);
 
-                MonsterDTO monsterDTO = new MonsterDTO(monsterId, monsterName, baseMonsterName, monsterQualityCode, monsterBaseStats, monsterModifiers, monsterSkills);
+                MonsterDTO monsterDTO = new MonsterDTO(monsterCode, monsterName, baseMonsterCode, monsterQualityCode, monsterBaseStats, monsterModifiers, monsterSkills);
                 monsters.add(monsterDTO);
             }
         }
@@ -52,13 +51,13 @@ public class MonsterManager
         return monsters;
     }
 
-    public ArrayList<StatDTO> getMonsterBaseStats(int monsterId)
+    public ArrayList<StatDTO> getMonsterBaseStats(String monsterCode)
     {
         ArrayList<StatDTO> monsterBaseStats = new ArrayList<StatDTO>();
 
         try (Connection conn = DriverManager.getConnection(dbInfo.dbPath, dbInfo.dbUsername, dbInfo.dbPassword))
         {
-            String sql = "SELECT * FROM FUNC_GetMonsterStats(" + monsterId + ")";
+            String sql = "SELECT * FROM FUNC_GetMonsterStats('" + monsterCode + "')";
             Statement stmt = conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -80,23 +79,23 @@ public class MonsterManager
         return monsterBaseStats;
     }
 
-    private ArrayList<MonsterModifierDTO> getMonsterModifiers(int monsterId)
+    private ArrayList<MonsterModifierDTO> getMonsterModifiers(String monsterCode)
     {
         ArrayList<MonsterModifierDTO> monsterModifiers = new ArrayList<MonsterModifierDTO>();
 
         try (Connection conn = DriverManager.getConnection(dbInfo.dbPath, dbInfo.dbUsername, dbInfo.dbPassword))
         {
-            String sql = "SELECT * FROM FUNC_GetMonsterModifiers(" + monsterId + ")";
+            String sql = "SELECT * FROM FUNC_GetMonsterModifiers('" + monsterCode + "')";
             Statement stmt = conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next())
             {
-                String monsterModifierCode = rs.getString("code");
-                float modifierValue = rs.getFloat("value");
+                String monsterModifierCode = rs.getString("modifierCode");
+                String monsterModifierName = rs.getString("modifierName");
 
-                MonsterModifierDTO monsterModifier = new MonsterModifierDTO(monsterModifierCode, modifierValue);
+                MonsterModifierDTO monsterModifier = new MonsterModifierDTO(monsterModifierCode, monsterModifierName);
                 monsterModifiers.add(monsterModifier);
             }
         }
@@ -108,13 +107,13 @@ public class MonsterManager
         return monsterModifiers;
     }
 
-    private ArrayList<SkillDTO> getMonsterSkills(int baseMonsterId)
+    private ArrayList<SkillDTO> getMonsterSkills(String baseMonsterCode)
     {
         ArrayList<SkillDTO> skills = new ArrayList<SkillDTO>();
 
         try (Connection conn = DriverManager.getConnection(dbInfo.dbPath, dbInfo.dbUsername, dbInfo.dbPassword))
         {
-            String sql = "SELECT * FROM FUNC_GetMonsterSkills(" + baseMonsterId + ")";
+            String sql = "SELECT * FROM FUNC_GetMonsterSkills('" + baseMonsterCode + "')";
             Statement stmt = conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -124,7 +123,7 @@ public class MonsterManager
                 String skillCode = rs.getString("skillCode");
                 int skillLevel = rs.getInt("level");
 
-                SkillDTO skill = new SkillDTO(skillCode, skillLevel);
+                SkillDTO skill = new SkillDTO();
                 skills.add(skill);
             }
         }
