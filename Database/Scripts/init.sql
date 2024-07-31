@@ -893,11 +893,11 @@ BEGIN
 	/***               Players               ***/
 	/*******************************************/
 
-  CALL PROC_AddPlayer('sims3007', '../../../../../../Save/sims3007');
-  CALL PROC_AddPlayer('simw2402', '../../../../../../Save/simw2402');
-  CALL PROC_AddPlayer('simv2104', '../../../../../../Save/simv2104');
-  CALL PROC_AddPlayer('befg1702', '../../../../../../Save/befg1702');
-  CALL PROC_AddPlayer('malm1708', '../../../../../../Save/malm1708');
+  CALL PROC_AddPlayer('sims3007', '../../../../../Save/sims3007');
+  CALL PROC_AddPlayer('simw2402', '../../../../../Save/simw2402');
+  CALL PROC_AddPlayer('simv2104', '../../../../../Save/simv2104');
+  CALL PROC_AddPlayer('befg1702', '../../../../../Save/befg1702');
+  CALL PROC_AddPlayer('malm1708', '../../../../../Save/malm1708');
 
 	/*******************************************/
 	/***               Classes               ***/
@@ -1071,8 +1071,8 @@ BEGIN
   CALL PROC_AddItemStat('MOV_SPEED_MOD', 'Movement Speed Modifier');
 	
 	-- Items - Normal
-	CALL PROC_AddItem('Bone Sword', 'NOR', 'NOR', 'SHORT_1H_SWORD', 'NONE');
-  CALL PROC_AddItem('Golden Kopis', 'NOR', 'NOR', 'SHORT_1H_SWORD', 'NONE');
+	CALL PROC_AddItem('Bone Sword', 'NOR', 'NOR', 'BONE_SWORD', 'NONE');
+  CALL PROC_AddItem('Golden Kopis', 'NOR', 'NOR', 'KOPIS', 'NONE');
   CALL PROC_AddItem('Dagger', 'NOR', 'NOR', 'DAGGER', 'NONE');
 
   CALL PROC_AddItem('Talisman of Baphomet', 'NOR', 'NOR', 'NECKLACE', 'NONE');
@@ -1159,6 +1159,7 @@ BEGIN
   CALL PROC_AddMonsterQuality('ELI', 'Elite');
   CALL PROC_AddMonsterQuality('RAR', 'Rare');
   CALL PROC_AddMonsterQuality('UNI', 'Unique');
+  CALL PROC_AddMonsterQuality('SUN', 'Super Unique');
   CALL PROC_AddMonsterQuality('BOS', 'Boss');
 
   -- Monsters
@@ -1170,7 +1171,7 @@ BEGIN
   CALL PROC_AddMonster('MINOTAUR','Minotaur', 'MINOTAUR', 'NOR');
 
   -- Monsters - ELITE
-  CALL PROC_AddMonster('GAETAN','Gaetan', 'GOBLIN_LUMBERJACK_BLACK', 'ELI');
+  CALL PROC_AddMonster('GAETAN','Gaetan', 'GOBLIN_LUMBERJACK_BLACK', 'SUN');
 
   -- Monster Stats
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN', 60);
@@ -1222,6 +1223,22 @@ $$;
 /******************************************/
 /***             FUNCTIONS              ***/
 /******************************************/
+
+-- Saves
+CREATE OR REPLACE FUNCTION FUNC_GetSavesByUsername(user_name VARCHAR(50))
+RETURNS TABLE
+(
+	savePath VARCHAR(100)
+) 
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY 
+    SELECT 	Player.savePath
+    FROM Player
+    WHERE Player.username = user_name;
+END;
+$$;
 
 -- Items
 CREATE OR REPLACE FUNCTION FUNC_GetAllItemsCore()

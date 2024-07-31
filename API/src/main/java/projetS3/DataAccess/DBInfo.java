@@ -8,7 +8,7 @@ public class DBInfo
 
     public DBInfo()
     {
-        dbPath = "jdbc:postgresql://localhost:5444/GameData";
+        dbPath = "jdbc:postgresql://localhost:5432/GameData";
         dbUsername = "postgres";
         dbPassword = "admin";
     }

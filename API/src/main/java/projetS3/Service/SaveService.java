@@ -5,14 +5,12 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.util.ArrayList;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import projetS3.DataAccess.Save.SaveManager;
+import projetS3.DataAccess.Save.SaveRequestBody;
 
 @Path("/Save")
 public class SaveService
@@ -33,5 +31,12 @@ public class SaveService
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @POST
+    @Path("/{username}")
+    public void updateSave(@PathParam("username") String username, SaveRequestBody requestBody)
+    {
+        saveManager.updateSave(username, requestBody);
     }
 }
