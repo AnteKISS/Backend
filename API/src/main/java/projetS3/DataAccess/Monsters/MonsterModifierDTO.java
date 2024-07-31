@@ -10,4 +10,10 @@ public class MonsterModifierDTO
         itemModifierCode = "";
         modifierValue = 0;
     }
+
+    public MonsterModifierDTO(String itemModifierCode, float modifierValue)
+    {
+        this.itemModifierCode = itemModifierCode;
+        this.modifierValue = modifierValue;
+    }
 }

@@ -30,14 +30,15 @@ public class MonsterManager
             while (rs.next())
             {
                 int monsterId = rs.getInt("id");
-                int baseMonsterId = rs.getInt("baseMonsterId");
+                int baseMonsterId = rs.getInt("baseId");
                 String monsterName = rs.getString("name");
                 String baseMonsterName = rs.getString("baseName");
                 String monsterQualityCode = rs.getString("qualityCode");
 
                 ArrayList<StatDTO> monsterBaseStats = getMonsterBaseStats(monsterId);
                 ArrayList<MonsterModifierDTO> monsterModifiers = getMonsterModifiers(monsterId);
-                ArrayList<SkillDTO> monsterSkills = getMonsterSkills(baseMonsterId);
+                ArrayList<SkillDTO> monsterSkills = new ArrayList<SkillDTO>();
+                //ArrayList<SkillDTO> monsterSkills = getMonsterSkills(baseMonsterId);
 
                 MonsterDTO monsterDTO = new MonsterDTO(monsterId, monsterName, baseMonsterName, monsterQualityCode, monsterBaseStats, monsterModifiers, monsterSkills);
                 monsters.add(monsterDTO);
@@ -65,9 +66,9 @@ public class MonsterManager
             while (rs.next())
             {
                 String monsterStatCode = rs.getString("statCode");
-                String monsterStatValue = rs.getString("value");
+                float monsterStatValue = rs.getFloat("statValue");
 
-                StatDTO monsterBaseStat = new StatDTO();
+                StatDTO monsterBaseStat = new StatDTO(monsterStatCode, monsterStatValue);
                 monsterBaseStats.add(monsterBaseStat);
             }
         }
@@ -95,7 +96,7 @@ public class MonsterManager
                 String monsterModifierCode = rs.getString("code");
                 float modifierValue = rs.getFloat("value");
 
-                MonsterModifierDTO monsterModifier = new MonsterModifierDTO();
+                MonsterModifierDTO monsterModifier = new MonsterModifierDTO(monsterModifierCode, modifierValue);
                 monsterModifiers.add(monsterModifier);
             }
         }

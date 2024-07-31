@@ -739,7 +739,7 @@ CREATE OR REPLACE PROCEDURE PROC_AddMonsterBaseStats
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	INSERT INTO MonsterModifierBaseStat(statCode, monsterId, statValue)
+	INSERT INTO MonsterBaseStats(statCode, monsterId, statValue)
 	VALUES			                   (stat_Code, monster_Id, stat_Value);
 END;
 $$;
@@ -754,6 +754,20 @@ AS $$
 BEGIN
 	INSERT INTO MonsterModifier(monsterModifierCode, monsterModifierName)
 	VALUES			           (monsterModifier_Code, monsterModifier_Name);
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE PROC_AddMonsterModifierStats
+(
+	stat_Code VARCHAR(25),
+	monsterModifierCode VARCHAR(25),
+	intensity NUMERIC(15,2)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+	INSERT INTO MonsterModifierBaseStat(statCode, monsterId, statValue)
+	VALUES			                   (stat_Code, monster_Id, stat_Value);
 END;
 $$;
 
@@ -1101,6 +1115,64 @@ BEGIN
 
   -- Assign modifiers to Items
   CALL PROC_AddModifierToItem(22, 'INC_DAMAGE', 5.0);
+
+  /*******************************************/
+	/***             MONSTERS                ***/
+	/*******************************************/
+
+  -- Base Monsters
+  CALL PROC_AddBaseMonster('Goblin Skirmisher');
+  CALL PROC_AddBaseMonster('Goblin Lumberjack');
+  CALL PROC_AddBaseMonster('Wyvern Composite');
+  CALL PROC_AddBaseMonster('Zombie');
+  CALL PROC_AddBaseMonster('Skeleton');
+  CALL PROC_AddBaseMonster('Minotaur');
+
+  -- Monster Qualities
+  CALL PROC_AddMonsterQuality('NOR', 'Normal');
+  CALL PROC_AddMonsterQuality('ELI', 'Elite');
+  CALL PROC_AddMonsterQuality('RAR', 'Rare');
+  CALL PROC_AddMonsterQuality('UNI', 'Unique');
+  CALL PROC_AddMonsterQuality('BOS', 'Boss');
+
+  -- Monsters
+  CALL PROC_AddMonster('Goblin Skirmisher', 1, 'NOR');
+  CALL PROC_AddMonster('Goblin Lumberjack', 2, 'NOR');
+  CALL PROC_AddMonster('Wyvern Composite', 3, 'NOR');
+  CALL PROC_AddMonster('Zombie', 4, 'NOR');
+  CALL PROC_AddMonster('Skeleton', 5, 'NOR');
+  CALL PROC_AddMonster('Minotaur', 6, 'NOR');
+
+  -- Monster Stats
+  CALL PROC_AddMonsterBaseStats('HEALTH', 1, 60);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 1, 125);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 1, 8);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 1, 10);
+
+  CALL PROC_AddMonsterBaseStats('HEALTH', 2, 120);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 2, 160);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 2, 24);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 2, 15);
+
+  CALL PROC_AddMonsterBaseStats('HEALTH', 3, 250);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 3, 150);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 3, 6);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 3, 50);
+
+  CALL PROC_AddMonsterBaseStats('HEALTH', 4, 150);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 4, 75);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 4, 6);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 4, 10);
+
+  CALL PROC_AddMonsterBaseStats('HEALTH', 5, 100);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 5, 100);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 5, 8);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 5, 15);
+
+  CALL PROC_AddMonsterBaseStats('HEALTH', 6, 400);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 6, 150);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 6, 10);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 6, 35);
 END;
 $$;
 
@@ -1248,6 +1320,23 @@ BEGIN
 			monsterMonsterModifier.modifierValue
     FROM monsterMonsterModifier
     WHERE monsterMonsterModifier.monsterId = monster_Id;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION FUNC_GetMonsterStats(monster_Id INTEGER)
+RETURNS TABLE
+(
+	statCode VARCHAR(25),
+	statValue NUMERIC(15,2)
+) 
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY 
+    SELECT 	monsterBaseStats.statCode,
+			monsterBaseStats.statValue
+    FROM monsterBaseStats
+    WHERE monsterBaseStats.monsterId = monster_Id;
 END;
 $$;
 

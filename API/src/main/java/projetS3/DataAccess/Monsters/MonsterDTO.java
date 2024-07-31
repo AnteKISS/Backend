@@ -7,13 +7,13 @@ import java.util.ArrayList;
 
 public class MonsterDTO
 {
-    int id;
-    String name;
-    String baseName;
-    String qualityCode;
-    ArrayList<StatDTO> monsterStats;
-    ArrayList<MonsterModifierDTO> monstersModifiers;
-    ArrayList<SkillDTO> monsterSkills;
+    public int id;
+    public String name;
+    public String baseName;
+    public String qualityCode;
+    public ArrayList<StatDTO> monsterStats;
+    public ArrayList<MonsterModifierDTO> monstersModifiers;
+    public ArrayList<SkillDTO> monsterSkills;
 
     public MonsterDTO()
     {
