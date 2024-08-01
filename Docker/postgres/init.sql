@@ -1275,10 +1275,10 @@ BEGIN
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'ZACHARY', 400);
   CALL PROC_AddMonsterBaseStats('MANA', 'ZACHARY', 10000);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'ZACHARY', 120);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'ZACHARY', 75);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'ZACHARY', 6);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'ZACHARY', 100);
-  CALL PROC_AddMonsterBaseStats('DAMAGE', 'ZACHARY', 15);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'ZACHARY', 10);
   CALL PROC_AddMonsterBaseStats('DEFENSE', 'ZACHARY', 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'ZACHARY', 1000);
 
