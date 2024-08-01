@@ -160,6 +160,12 @@ CREATE TABLE ItemStat(
    UNIQUE(itemStatName)
 );
 
+CREATE TABLE MonsterBehavior(
+   monsterBehaviorCode VARCHAR(25) ,
+   monsterBehaviorName VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(monsterBehaviorCode)
+);
+
 CREATE TABLE DamageType(
    damageTypeCode VARCHAR(25) ,
    damageTypeName VARCHAR(50)  NOT NULL,
@@ -183,10 +189,12 @@ CREATE TABLE ItemType(
 CREATE TABLE Monster(
    monsterCode VARCHAR(25) ,
    monsterName VARCHAR(50)  NOT NULL,
+   monsterBehaviorCode VARCHAR(25)  NOT NULL,
    baseMonsterCode VARCHAR(25)  NOT NULL,
    monsterQualityCode VARCHAR(25)  NOT NULL,
    PRIMARY KEY(monsterCode),
    UNIQUE(monsterName),
+   FOREIGN KEY(monsterBehaviorCode) REFERENCES MonsterBehavior(monsterBehaviorCode),
    FOREIGN KEY(baseMonsterCode) REFERENCES BaseMonster(baseMonsterCode),
    FOREIGN KEY(monsterQualityCode) REFERENCES MonsterQuality(monsterQualityCode)
 );
@@ -384,8 +392,8 @@ CREATE TABLE MonsterMonsterModifier(
 );
 
 CREATE TABLE BaseMonsterSkill(
-   skillCode VARCHAR(25),
-   baseMonsterCode VARCHAR(25),
+   skillCode VARCHAR(25) ,
+   baseMonsterCode VARCHAR(25) ,
    level INTEGER NOT NULL,
    PRIMARY KEY(skillCode, baseMonsterCode),
    FOREIGN KEY(skillCode) REFERENCES Skill(skillCode),
@@ -393,9 +401,9 @@ CREATE TABLE BaseMonsterSkill(
 );
 
 CREATE TABLE ItemBaseStats(
-   ItemTypeCode VARCHAR(25),
-   itemStatCode VARCHAR(25),
-   statValue NUMERIC(15,2) NOT NULL,
+   ItemTypeCode VARCHAR(25) ,
+   itemStatCode VARCHAR(25) ,
+   statValue NUMERIC(15,2)   NOT NULL,
    PRIMARY KEY(ItemTypeCode, itemStatCode),
    FOREIGN KEY(ItemTypeCode) REFERENCES ItemType(ItemTypeCode),
    FOREIGN KEY(itemStatCode) REFERENCES ItemStat(itemStatCode)
@@ -735,14 +743,15 @@ CREATE OR REPLACE PROCEDURE PROC_AddMonster
 (
   monster_Code VARCHAR(25),
 	monster_Name VARCHAR(50),
+  monsterBehavior_Code VARCHAR(25),
 	baseMonster_Code VARCHAR(25),
 	monsterQuality_Code VARCHAR(25)
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	INSERT INTO Monster(monsterCode, monsterName,  baseMonsterCode,  monsterQualityCode)
-	VALUES			       (monster_Code, monster_Name, baseMonster_Code, monsterQuality_Code);
+	INSERT INTO Monster(monsterCode, monsterName,monsterBehaviorCode,  baseMonsterCode,  monsterQualityCode)
+	VALUES			       (monster_Code, monster_Name, monsterBehavior_Code, baseMonster_Code, monsterQuality_Code);
 END;
 $$;
 
@@ -797,6 +806,19 @@ AS $$
 BEGIN
 	INSERT INTO MonsterQuality(monsterQualityCode, monsterQualityName)
 	VALUES			          (monsterQuality_Code, monsterQuality_Name);
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE PROC_AddMonsterBehavior
+(
+	monsterBehavior_Code VARCHAR(25),
+	monsterBehavior_Name VARCHAR(50)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+	INSERT INTO MonsterBehavior(monsterBehaviorCode,  monsterBehaviorName)
+	VALUES			               (monsterBehavior_Code, monsterBehavior_Name);
 END;
 $$;
 
@@ -921,6 +943,9 @@ BEGIN
 	CALL PROC_AddStat('BLOCK_SPEED', 'Block Speed');
 	CALL PROC_AddStat('BLOCK_RATE', 'Block Rate');
 	CALL PROC_AddStat('ATTACK_RATING', 'Attack Rating');
+  CALL PROC_AddStat('MELEE_RANGE', 'Melee range');
+  CALL PROC_AddStat('SIGHT_DISTANCE', 'Sight Distance');
+  CALL PROC_AddStat('DEFENSE', 'Defense');
 	CALL PROC_AddStat('CRITICAL_RATE', 'Critical Rate');
 	CALL PROC_AddStat('DAMAGE', 'Damage');
 	CALL PROC_AddStat('ENHANCE_DAMAGE_PCT', 'Enhanced Damage Percent');
@@ -1162,52 +1187,84 @@ BEGIN
   CALL PROC_AddMonsterQuality('SUN', 'Super Unique');
   CALL PROC_AddMonsterQuality('BOS', 'Boss');
 
+  -- Monster Behaviors
+  CALL PROC_AddMonsterBehavior('RUSHER', 'Rusher');
+  CALL PROC_AddMonsterBehavior('SKIRMISHER', 'Skirmisher');
+
   -- Monsters
-  CALL PROC_AddMonster('GOBLIN','Goblin', 'GOBLIN', 'NOR');
-  CALL PROC_AddMonster('GOBLIN_LUMBERJACK_BLACK','Goblin Lumberjack', 'GOBLIN_LUMBERJACK_BLACK', 'NOR');
-  CALL PROC_AddMonster('WYVERN_COMPOSITE','Wyvern Composite', 'WYVERN_COMPOSITE', 'NOR');
-  CALL PROC_AddMonster('ZOMBIE','Zombie', 'ZOMBIE', 'NOR');
-  CALL PROC_AddMonster('SKELETON','Skeleton', 'SKELETON', 'NOR');
-  CALL PROC_AddMonster('MINOTAUR','Minotaur', 'MINOTAUR', 'NOR');
+  CALL PROC_AddMonster('GOBLIN','Goblin', 'SKIRMISHER', 'GOBLIN', 'NOR');
+  CALL PROC_AddMonster('GOBLIN_LUMBERJACK_BLACK','Goblin Lumberjack', 'RUSHER',  'GOBLIN_LUMBERJACK_BLACK', 'NOR');
+  CALL PROC_AddMonster('WYVERN_COMPOSITE','Wyvern Composite', 'SKIRMISHER', 'WYVERN_COMPOSITE', 'NOR');
+  CALL PROC_AddMonster('ZOMBIE','Zombie', 'RUSHER',  'ZOMBIE', 'NOR');
+  CALL PROC_AddMonster('SKELETON','Skeleton', 'RUSHER', 'SKELETON', 'NOR');
+  CALL PROC_AddMonster('MINOTAUR','Minotaur', 'RUSHER', 'MINOTAUR', 'NOR');
 
   -- Monsters - ELITE
-  CALL PROC_AddMonster('GAETAN','Gaetan', 'GOBLIN_LUMBERJACK_BLACK', 'SUN');
+  CALL PROC_AddMonster('GAETAN','Gaetan', 'RUSHER', 'GOBLIN_LUMBERJACK_BLACK', 'SUN');
 
   -- Monster Stats
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN', 60);
+  CALL PROC_AddMonsterBaseStats('MANA', 'GOBLIN', 10000);
   CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'GOBLIN', 125);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GOBLIN', 8);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'GOBLIN', 100);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'GOBLIN', 10);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GOBLIN', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'GOBLIN', 500);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN_LUMBERJACK_BLACK', 120);
+  CALL PROC_AddMonsterBaseStats('MANA', 'GOBLIN_LUMBERJACK_BLACK', 10000);
   CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'GOBLIN_LUMBERJACK_BLACK', 160);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GOBLIN_LUMBERJACK_BLACK', 24);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'GOBLIN_LUMBERJACK_BLACK', 100);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'GOBLIN_LUMBERJACK_BLACK', 15);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GOBLIN_LUMBERJACK_BLACK', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'GOBLIN_LUMBERJACK_BLACK', 700);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'WYVERN_COMPOSITE', 250);
+  CALL PROC_AddMonsterBaseStats('MANA', 'WYVERN_COMPOSITE', 10000);
   CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'WYVERN_COMPOSITE', 150);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'WYVERN_COMPOSITE', 6);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'WYVERN_COMPOSITE', 125);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'WYVERN_COMPOSITE', 50);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'WYVERN_COMPOSITE', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'WYVERN_COMPOSITE', 750);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'ZOMBIE', 150);
+  CALL PROC_AddMonsterBaseStats('MANA', 'ZOMBIE', 10000);
   CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'ZOMBIE', 75);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'ZOMBIE', 6);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'ZOMBIE', 100);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'ZOMBIE', 10);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'ZOMBIE', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'ZOMBIE', 400);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'SKELETON', 100);
+  CALL PROC_AddMonsterBaseStats('MANA', 'SKELETON', 10000);
   CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'SKELETON', 100);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'SKELETON', 8);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'SKELETON', 100);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'SKELETON', 15);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'SKELETON', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'SKELETON', 500);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'MINOTAUR', 400);
+  CALL PROC_AddMonsterBaseStats('MANA', 'MINOTAUR', 10000);
   CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'MINOTAUR', 150);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'MINOTAUR', 10);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'MINOTAUR', 125);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'MINOTAUR', 35);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'MINOTAUR', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'MINOTAUR', 800);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GAETAN', 200);
+  CALL PROC_AddMonsterBaseStats('MANA', 'GAETAN', 10000);
   CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'GAETAN', 200);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GAETAN', 32);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'GAETAN', 100);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'GAETAN', 15);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GAETAN', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'GAETAN', 1000);
 
   -- Monster Modifiers
   CALL PROC_AddMonsterModifier('EXTRA_STRONG', 'Extra Strong');
@@ -1349,7 +1406,8 @@ RETURNS TABLE
 	code VARCHAR(25),
 	baseCode VARCHAR(25),
 	name VARCHAR(50), 
-	baseName VARCHAR(50), 
+	baseName VARCHAR(50),
+  behaviorCode VARCHAR(25),
 	qualityCode VARCHAR(25)
 ) 
 LANGUAGE plpgsql
@@ -1360,6 +1418,7 @@ BEGIN
 			BaseMonster.baseMonsterCode,
 			Monster.monsterName,
 			BaseMonster.baseMonsterName, 
+      Monster.monsterBehaviorCode,
 			Monster.monsterQualityCode
     FROM Monster
 		INNER JOIN BaseMonster ON BaseMonster.baseMonsterCode = Monster.baseMonsterCode;

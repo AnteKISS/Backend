@@ -31,6 +31,7 @@ public class MonsterManager
             {
                 String monsterCode = rs.getString("code");
                 String baseMonsterCode = rs.getString("baseCode");
+                String monsterBehaviorCode = rs.getString("behaviorCode");
                 String monsterName = rs.getString("name");
                 String monsterQualityCode = rs.getString("qualityCode");
 
@@ -39,7 +40,7 @@ public class MonsterManager
                 ArrayList<SkillDTO> monsterSkills = new ArrayList<SkillDTO>();
                 //ArrayList<SkillDTO> monsterSkills = getMonsterSkills(baseMonsterId);
 
-                MonsterDTO monsterDTO = new MonsterDTO(monsterCode, monsterName, baseMonsterCode, monsterQualityCode, monsterBaseStats, monsterModifiers, monsterSkills);
+                MonsterDTO monsterDTO = new MonsterDTO(monsterCode, monsterName, baseMonsterCode, monsterBehaviorCode, monsterQualityCode, monsterBaseStats, monsterModifiers, monsterSkills);
                 monsters.add(monsterDTO);
             }
         }
