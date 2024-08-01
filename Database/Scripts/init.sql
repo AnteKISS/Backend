@@ -1321,8 +1321,14 @@ BEGIN
   CALL PROC_AddModifierToMonster('JACKSON','EXTRA_STRONG');
   CALL PROC_AddModifierToMonster('JACKSON','EXTRA_DURABLE');
 
+  CALL PROC_AddModifierToMonster('ZACHARY','EXTRA_DURABLE');
+
   CALL PROC_AddModifierToMonster('COMPOSITE_BOBBY','EXTRA_STRONG');
   CALL PROC_AddModifierToMonster('COMPOSITE_BOBBY','EXTRA_DURABLE');
+
+  CALL PROC_AddModifierToMonster('TAUROS','EXTRA_STRONG');
+  CALL PROC_AddModifierToMonster('TAUROS','EXTRA_FAST');
+  CALL PROC_AddModifierToMonster('TAUROS','EXTRA_DURABLE');
 END;
 $$;
 
