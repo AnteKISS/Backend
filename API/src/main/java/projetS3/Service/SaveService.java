@@ -35,6 +35,7 @@ public class SaveService
 
     @POST
     @Path("/{username}")
+    @Consumes(MediaType.APPLICATION_JSON)
     public void updateSave(@PathParam("username") String username, SaveRequestBody requestBody)
     {
         saveManager.updateSave(username, requestBody);
