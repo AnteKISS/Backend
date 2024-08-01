@@ -1142,9 +1142,9 @@ BEGIN
   CALL PROC_AddItemBaseStat('DAGGER', 'ATK_SPEED_MOD', 40.0);
   CALL PROC_AddItemBaseStat('DAGGER', 'DAMAGE', 5.0);
 
-  CALL PROC_AddItemBaseStat('NECKLACE', 'MOV_SPEED_MOD', 40.0);
+  CALL PROC_AddItemBaseStat('NECKLACE', 'DAMAGE', 3.0);
 
-  CALL PROC_AddItemBaseStat('RING', 'MOV_SPEED_MOD', 20.0);
+  CALL PROC_AddItemBaseStat('RING', 'DEFENSE', 20.0);
 
   CALL PROC_AddItemBaseStat('LEATHER_CHEST', 'DEFENSE', 15.0);
   CALL PROC_AddItemBaseStat('CHAINMAIL_CHEST', 'DEFENSE', 40.0);
@@ -1153,7 +1153,9 @@ BEGIN
   CALL PROC_AddItemBaseStat('CHAINMAIL_BELT', 'DEFENSE', 10.0);
 
   CALL PROC_AddItemBaseStat('LEATHER_BOOTS', 'DEFENSE', 8.0);
+  CALL PROC_AddItemBaseStat('LEATHER_BOOTS', 'MOV_SPEED_MOD', 40.0);
   CALL PROC_AddItemBaseStat('CHAINMAIL_BOOTS', 'DEFENSE', 15.0);
+  CALL PROC_AddItemBaseStat('CHAINMAIL_BOOTS', 'MOV_SPEED_MOD', 30.0);
 
   CALL PROC_AddItemBaseStat('LEATHER_GLOVES', 'DEFENSE', 8.0);
   CALL PROC_AddItemBaseStat('CHAINMAIL_GLOVES', 'DEFENSE', 15.0);
@@ -1165,6 +1167,7 @@ BEGIN
   CALL PROC_AddItemBaseStat('SML_SHIELD', 'DEFENSE', 30.0);
 
   -- Assign modifiers to Items
+  CALL PROC_AddModifierToItem(4, 'INC_DAMAGE', 3.0);
   CALL PROC_AddModifierToItem(22, 'INC_DAMAGE', 5.0);
 
   /*******************************************/
@@ -1199,8 +1202,10 @@ BEGIN
   CALL PROC_AddMonster('SKELETON','Skeleton', 'RUSHER', 'SKELETON', 'NOR');
   CALL PROC_AddMonster('MINOTAUR','Minotaur', 'RUSHER', 'MINOTAUR', 'NOR');
 
-  -- Monsters - ELITE
+  -- Monsters - Super Uniques
   CALL PROC_AddMonster('GAETAN','Gaetan', 'RUSHER', 'GOBLIN_LUMBERJACK_BLACK', 'SUN');
+  CALL PROC_AddMonster('JACKSON','Jackson', 'RUSHER', 'SKELETON', 'SUN');
+  CALL PROC_AddMonster('COMPOSITE_BOBBY','Bobby le composite', 'SKIRMISHER', 'WYVERN_COMPOSITE', 'SUN');
 
   -- Monster Stats
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN', 60);
@@ -1266,6 +1271,24 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('DEFENSE', 'GAETAN', 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'GAETAN', 1000);
 
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'JACKSON', 300);
+  CALL PROC_AddMonsterBaseStats('MANA', 'JACKSON', 10000);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'JACKSON', 120);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'JACKSON', 15);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'JACKSON', 100);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'JACKSON', 35);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'JACKSON', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'JACKSON', 1000);
+
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'COMPOSITE_BOBBY', 1000);
+  CALL PROC_AddMonsterBaseStats('MANA', 'COMPOSITE_BOBBY', 10000);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'COMPOSITE_BOBBY', 140);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'COMPOSITE_BOBBY', 8);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'COMPOSITE_BOBBY', 125);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'COMPOSITE_BOBBY', 70);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'COMPOSITE_BOBBY', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'COMPOSITE_BOBBY', 1000);
+
   -- Monster Modifiers
   CALL PROC_AddMonsterModifier('EXTRA_STRONG', 'Extra Strong');
   CALL PROC_AddMonsterModifier('EXTRA_FAST', 'Extra Fast');
@@ -1274,6 +1297,12 @@ BEGIN
   -- Add Modifiers to Monsters (FOR INFO ONLY)
   CALL PROC_AddModifierToMonster('GAETAN','EXTRA_FAST');
   CALL PROC_AddModifierToMonster('GAETAN','EXTRA_DURABLE');
+
+  CALL PROC_AddModifierToMonster('JACKSON','EXTRA_STRONG');
+  CALL PROC_AddModifierToMonster('JACKSON','EXTRA_DURABLE');
+
+  CALL PROC_AddModifierToMonster('COMPOSITE_BOBBY','EXTRA_STRONG');
+  CALL PROC_AddModifierToMonster('COMPOSITE_BOBBY','EXTRA_DURABLE');
 END;
 $$;
 

@@ -2,10 +2,6 @@ package projetS3.DataAccess.Save;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import projetS3.DataAccess.DBInfo;
-import projetS3.DataAccess.Items.StatDTO;
-import projetS3.DataAccess.Monsters.MonsterDTO;
-import projetS3.DataAccess.Monsters.MonsterModifierDTO;
-import projetS3.DataAccess.Skills.SkillDTO;
 
 import java.io.File;
 import java.io.IOException;
