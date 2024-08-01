@@ -1078,6 +1078,7 @@ BEGIN
 	
 	-- Item Modifiers
 	CALL PROC_AddItemModifier_STAT('INC_ATK_SPEED', 'Increased Attack Speed', 'ATTACK_SPEED');
+  CALL PROC_AddItemModifier_STAT('INC_MOV_SPEED', 'Increased Movement Speed', 'MOV_SPEED');
   CALL PROC_AddItemModifier_STAT('INC_DAMAGE', 'Increased Damage', 'DAMAGE');
 	CALL PROC_AddItemModifier_STAT('MIN_FLAT_DAMAGE_FIRE', 'Minimum Fire Damage', 'MIN_DAMAGE_FIRE');
 	CALL PROC_AddItemModifier_STAT('MIN_FLAT_DAMAGE_COLD', 'Minimum Cold Damage', 'MIN_DAMAGE_COLD');
@@ -1131,6 +1132,7 @@ BEGIN
 	-- Items - Rare
 	-- Items - Set
 	-- Items - Unique
+  CALL PROC_AddItem('The Throngler', 'NOR', 'UNI', 'KOPIS', 'NONE');
 	
 	-- Assign Stats to Items
 	CALL PROC_AddItemBaseStat('BONE_SWORD', 'ATK_SPEED_MOD', 20.0);
@@ -1169,6 +1171,9 @@ BEGIN
   -- Assign modifiers to Items
   CALL PROC_AddModifierToItem(4, 'INC_DAMAGE', 3.0);
   CALL PROC_AddModifierToItem(22, 'INC_DAMAGE', 5.0);
+  CALL PROC_AddModifierToItem(23, 'INC_DAMAGE', 15.0);
+  CALL PROC_AddModifierToItem(23, 'INC_MOV_SPEED', 20.0);
+  CALL PROC_AddModifierToItem(23, 'INC_ATK_SPEED', 20.0);
 
   /*******************************************/
 	/***             MONSTERS                ***/
