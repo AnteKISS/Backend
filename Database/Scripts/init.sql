@@ -1204,8 +1204,10 @@ BEGIN
 
   -- Monsters - Super Uniques
   CALL PROC_AddMonster('GAETAN','Gaetan', 'RUSHER', 'GOBLIN_LUMBERJACK_BLACK', 'SUN');
+  CALL PROC_AddMonster('ZACHARY','Zachary', 'RUSHER', 'ZOMBIE', 'SUN');
   CALL PROC_AddMonster('JACKSON','Jackson', 'RUSHER', 'SKELETON', 'SUN');
   CALL PROC_AddMonster('COMPOSITE_BOBBY','Bobby le composite', 'SKIRMISHER', 'WYVERN_COMPOSITE', 'SUN');
+  CALL PROC_AddMonster('TAUROS','Tauros', 'RUSHER', 'MINOTAUR', 'SUN');
 
   -- Monster Stats
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN', 60);
@@ -1271,6 +1273,15 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('DEFENSE', 'GAETAN', 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'GAETAN', 1000);
 
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'ZACHARY', 400);
+  CALL PROC_AddMonsterBaseStats('MANA', 'ZACHARY', 10000);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'ZACHARY', 120);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'ZACHARY', 6);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'ZACHARY', 100);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'ZACHARY', 15);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'ZACHARY', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'ZACHARY', 1000);
+
   CALL PROC_AddMonsterBaseStats('HEALTH', 'JACKSON', 300);
   CALL PROC_AddMonsterBaseStats('MANA', 'JACKSON', 10000);
   CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'JACKSON', 120);
@@ -1289,6 +1300,15 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('DEFENSE', 'COMPOSITE_BOBBY', 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'COMPOSITE_BOBBY', 1000);
 
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'TAUROS', 1000);
+  CALL PROC_AddMonsterBaseStats('MANA', 'TAUROS', 10000);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'TAUROS', 225);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'TAUROS', 16);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'TAUROS', 125);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'TAUROS', 50);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'TAUROS', 0);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'TAUROS', 1000);
+
   -- Monster Modifiers
   CALL PROC_AddMonsterModifier('EXTRA_STRONG', 'Extra Strong');
   CALL PROC_AddMonsterModifier('EXTRA_FAST', 'Extra Fast');
@@ -1301,8 +1321,14 @@ BEGIN
   CALL PROC_AddModifierToMonster('JACKSON','EXTRA_STRONG');
   CALL PROC_AddModifierToMonster('JACKSON','EXTRA_DURABLE');
 
+  CALL PROC_AddModifierToMonster('ZACHARY','EXTRA_DURABLE');
+
   CALL PROC_AddModifierToMonster('COMPOSITE_BOBBY','EXTRA_STRONG');
   CALL PROC_AddModifierToMonster('COMPOSITE_BOBBY','EXTRA_DURABLE');
+
+  CALL PROC_AddModifierToMonster('TAUROS','EXTRA_STRONG');
+  CALL PROC_AddModifierToMonster('TAUROS','EXTRA_FAST');
+  CALL PROC_AddModifierToMonster('TAUROS','EXTRA_DURABLE');
 END;
 $$;
 
