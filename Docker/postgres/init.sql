@@ -903,6 +903,19 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE PROCEDURE PROC_AddProctype
+(
+	procType_Code VARCHAR(25),
+	procType_Name VARCHAR(50)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+	INSERT INTO ProcType(procTypeCode, procTypeName)
+	VALUES			        (procType_Code, procType_Name);
+END;
+$$;
+
 -- Data Insertion
 CREATE OR REPLACE PROCEDURE PROC_InsertData
 (
@@ -1285,7 +1298,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'ZACHARY', 100);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'ZACHARY', 10);
   CALL PROC_AddMonsterBaseStats('DEFENSE', 'ZACHARY', 0);
-  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'ZACHARY', 1000);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'ZACHARY', 500);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'JACKSON', 300);
   CALL PROC_AddMonsterBaseStats('MANA', 'JACKSON', 10000);
