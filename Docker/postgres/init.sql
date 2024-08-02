@@ -967,6 +967,7 @@ BEGIN
   CALL PROC_AddStat('DEFENSE', 'Defense');
 	CALL PROC_AddStat('CRITICAL_RATE', 'Critical Rate');
 	CALL PROC_AddStat('DAMAGE', 'Damage');
+  CALL PROC_AddStat('DAMAGE_MAGIC', 'Magic Damage');
 	CALL PROC_AddStat('ENHANCE_DAMAGE_PCT', 'Enhanced Damage Percent');
 	CALL PROC_AddStat('POISE', 'Poise');
 	CALL PROC_AddStat('MIN_DAMAGE_FIRE', 'Minimum Fire Damage');
@@ -1099,6 +1100,7 @@ BEGIN
 	CALL PROC_AddItemModifier_STAT('INC_ATK_SPEED', 'Increased Attack Speed', 'ATTACK_SPEED');
   CALL PROC_AddItemModifier_STAT('INC_MOV_SPEED', 'Increased Movement Speed', 'MOV_SPEED');
   CALL PROC_AddItemModifier_STAT('INC_DAMAGE', 'Increased Damage', 'DAMAGE');
+  CALL PROC_AddItemModifier_STAT('INC_DAMAGE_MAGIC', 'Increased magic damage', 'DAMAGE_MAGIC');
 	CALL PROC_AddItemModifier_STAT('MIN_FLAT_DAMAGE_FIRE', 'Minimum Fire Damage', 'MIN_DAMAGE_FIRE');
 	CALL PROC_AddItemModifier_STAT('MIN_FLAT_DAMAGE_COLD', 'Minimum Cold Damage', 'MIN_DAMAGE_COLD');
 	CALL PROC_AddItemModifier_STAT('MIN_FLAT_DAMAGE_LIGHT', 'Minimum LIghtning Damage', 'MIN_DAMAGE_LIGHT');
@@ -1111,6 +1113,7 @@ BEGIN
 	CALL PROC_AddItemStat('MIN_DAMAGE', 'Minimum Damage');
 	CALL PROC_AddItemStat('MAX_DAMAGE', 'Maximum Damage');
   CALL PROC_AddItemStat('DAMAGE', 'Damage');
+  CALL PROC_AddItemStat('DAMAGE_MAGIC', 'Magic Damage');
 	CALL PROC_AddItemStat('MAX_SOCKETS', 'Maximum Sockets');
   CALL PROC_AddItemStat('DEFENSE', 'Defense');
   CALL PROC_AddItemStat('MOV_SPEED_MOD', 'Movement Speed Modifier');
@@ -1158,14 +1161,15 @@ BEGIN
   CALL PROC_AddItemBaseStat('BONE_SWORD', 'DAMAGE', 10.0);
 
   CALL PROC_AddItemBaseStat('KOPIS', 'ATK_SPEED_MOD', 20.0);
-  CALL PROC_AddItemBaseStat('KOPIS', 'DAMAGE', 15.0);
+  CALL PROC_AddItemBaseStat('KOPIS', 'DAMAGE', 5.0);
+  CALL PROC_AddItemBaseStat('KOPIS', 'DAMAGE_MAGIC', 15.0);
 
   CALL PROC_AddItemBaseStat('DAGGER', 'ATK_SPEED_MOD', 40.0);
   CALL PROC_AddItemBaseStat('DAGGER', 'DAMAGE', 5.0);
 
-  CALL PROC_AddItemBaseStat('NECKLACE', 'DAMAGE', 3.0);
+  CALL PROC_AddItemBaseStat('NECKLACE', 'DAMAGE', 5.0);
 
-  CALL PROC_AddItemBaseStat('RING', 'DEFENSE', 20.0);
+  CALL PROC_AddItemBaseStat('RING', 'DAMAGE_MAGIC', 5.0);
 
   CALL PROC_AddItemBaseStat('LEATHER_CHEST', 'DEFENSE', 15.0);
   CALL PROC_AddItemBaseStat('CHAINMAIL_CHEST', 'DEFENSE', 40.0);
@@ -1188,11 +1192,11 @@ BEGIN
   CALL PROC_AddItemBaseStat('SML_SHIELD', 'DEFENSE', 30.0);
 
   -- Assign modifiers to Items
-  CALL PROC_AddModifierToItem(4, 'INC_DAMAGE', 3.0);
+  CALL PROC_AddModifierToItem(4, 'INC_DAMAGE', 10.0);
   CALL PROC_AddModifierToItem(22, 'INC_DAMAGE', 5.0);
   CALL PROC_AddModifierToItem(23, 'INC_DAMAGE', 15.0);
   CALL PROC_AddModifierToItem(23, 'INC_MOV_SPEED', 20.0);
-  CALL PROC_AddModifierToItem(23, 'INC_ATK_SPEED', 20.0);
+  CALL PROC_AddModifierToItem(23, 'INC_DAMAGE_MAGIC', 20.0);
 
   /*******************************************/
 	/***             MONSTERS                ***/
