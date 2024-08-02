@@ -1247,7 +1247,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GOBLIN', 8, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'GOBLIN', 100, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'GOBLIN', 10, 1);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GOBLIN', 10, 1);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GOBLIN', 10, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'GOBLIN', 500, 0);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN_LUMBERJACK_BLACK', 120, 12);
@@ -1256,7 +1256,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GOBLIN_LUMBERJACK_BLACK', 24, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'GOBLIN_LUMBERJACK_BLACK', 100, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'GOBLIN_LUMBERJACK_BLACK', 15, 1.5);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GOBLIN_LUMBERJACK_BLACK', 20, 2);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GOBLIN_LUMBERJACK_BLACK', 20, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'GOBLIN_LUMBERJACK_BLACK', 700, 0);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'WYVERN_COMPOSITE', 250, 25);
@@ -1265,7 +1265,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'WYVERN_COMPOSITE', 6, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'WYVERN_COMPOSITE', 125, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'WYVERN_COMPOSITE', 50, 5);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'WYVERN_COMPOSITE', 50, 5);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'WYVERN_COMPOSITE', 50, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'WYVERN_COMPOSITE', 750, 0);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'ZOMBIE', 150, 15);
@@ -1283,7 +1283,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'SKELETON', 8, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'SKELETON', 100, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'SKELETON', 15, 1.5);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'SKELETON', 20, 2);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'SKELETON', 20, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'SKELETON', 500, 0);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'MINOTAUR', 400, 40);
@@ -1292,7 +1292,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'MINOTAUR', 10, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'MINOTAUR', 125, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'MINOTAUR', 35, 3.5);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'MINOTAUR', 50, 5);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'MINOTAUR', 50, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'MINOTAUR', 800, 0);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GAETAN', 200, 20);
@@ -1301,7 +1301,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'GAETAN', 32, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'GAETAN', 100, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'GAETAN', 15, 1.5);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GAETAN', 30, 3);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'GAETAN', 30, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'GAETAN', 1000, 0);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'ZACHARY', 400, 40);
@@ -1328,7 +1328,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'COMPOSITE_BOBBY', 8, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'COMPOSITE_BOBBY', 125, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'COMPOSITE_BOBBY', 70, 7);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'COMPOSITE_BOBBY', 100, 10);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'COMPOSITE_BOBBY', 100, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'COMPOSITE_BOBBY', 1000, 0);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'TAUROS', 1000, 100);
@@ -1337,7 +1337,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'TAUROS', 16, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'TAUROS', 125, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'TAUROS', 50, 5);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'TAUROS', 80, 8);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'TAUROS', 80, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'TAUROS', 1000, 0);
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'KONQUEROR', 5000, 500);
@@ -1346,7 +1346,7 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'KONQUEROR', 16, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'KONQUEROR', 100, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'KONQUEROR', 100, 10);
-  CALL PROC_AddMonsterBaseStats('DEFENSE', 'KONQUEROR', 150, 15);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'KONQUEROR', 150, 0);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'KONQUEROR', 1500, 0);
 
   -- Monster Modifiers
