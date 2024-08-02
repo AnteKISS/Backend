@@ -1288,7 +1288,7 @@ BEGIN
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'MINOTAUR', 400, 40);
   CALL PROC_AddMonsterBaseStats('MANA', 'MINOTAUR', 10000, 10);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'MINOTAUR', 150, 1);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'MINOTAUR', 150, 0);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'MINOTAUR', 10, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'MINOTAUR', 125, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'MINOTAUR', 35, 3.5);
@@ -1333,7 +1333,7 @@ BEGIN
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'TAUROS', 1000, 100);
   CALL PROC_AddMonsterBaseStats('MANA', 'TAUROS', 10000, 10);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'TAUROS', 225, 5);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'TAUROS', 225, 1);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'TAUROS', 16, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'TAUROS', 125, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'TAUROS', 50, 5);
@@ -1342,7 +1342,7 @@ BEGIN
 
   CALL PROC_AddMonsterBaseStats('HEALTH', 'KONQUEROR', 5000, 500);
   CALL PROC_AddMonsterBaseStats('MANA', 'KONQUEROR', 10000, 10);
-  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'KONQUEROR', 200, 2);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'KONQUEROR', 225, 0);
   CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'KONQUEROR', 16, 0);
   CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'KONQUEROR', 100, 0);
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'KONQUEROR', 100, 10);
