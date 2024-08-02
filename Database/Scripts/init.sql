@@ -1155,6 +1155,7 @@ BEGIN
 	-- Items - Set
 	-- Items - Unique
   CALL PROC_AddItem('Knoppix', 'NOR', 'UNI', 'KOPIS', 'NONE');
+  CALL PROC_AddItem('Bb', 'NOR', 'UNI', 'RING', 'NONE');
 	
 	-- Assign Stats to Items
 	CALL PROC_AddItemBaseStat('BONE_SWORD', 'ATK_SPEED_MOD', 20.0);
@@ -1197,6 +1198,10 @@ BEGIN
   CALL PROC_AddModifierToItem(23, 'INC_DAMAGE', 15.0);
   CALL PROC_AddModifierToItem(23, 'INC_MOV_SPEED', 20.0);
   CALL PROC_AddModifierToItem(23, 'INC_DAMAGE_MAGIC', 20.0);
+  CALL PROC_AddModifierToItem(7, 'INC_DAMAGE_MAGIC', 2.0);
+  CALL PROC_AddModifierToItem(8, 'INC_DAMAGE_MAGIC', 5.0);
+  CALL PROC_AddModifierToItem(24, 'INC_DAMAGE_MAGIC', 15.0);
+  CALL PROC_AddModifierToItem(24, 'INC_MOV_SPEED', 15.0);
 
   /*******************************************/
 	/***             MONSTERS                ***/
