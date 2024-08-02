@@ -1154,7 +1154,7 @@ BEGIN
 	-- Items - Rare
 	-- Items - Set
 	-- Items - Unique
-  CALL PROC_AddItem('The Throngler', 'NOR', 'UNI', 'KOPIS', 'NONE');
+  CALL PROC_AddItem('Knoppix', 'NOR', 'UNI', 'KOPIS', 'NONE');
 	
 	-- Assign Stats to Items
 	CALL PROC_AddItemBaseStat('BONE_SWORD', 'ATK_SPEED_MOD', 20.0);
@@ -1236,6 +1236,9 @@ BEGIN
   CALL PROC_AddMonster('JACKSON','Jackson', 750, 75, 'RUSHER', 'SKELETON', 'SUN');
   CALL PROC_AddMonster('COMPOSITE_BOBBY','Bobby le composite', 6000, 600, 'SKIRMISHER', 'WYVERN_COMPOSITE', 'SUN');
   CALL PROC_AddMonster('TAUROS','Tauros', 7500, 750, 'RUSHER', 'MINOTAUR', 'SUN');
+
+  -- Monsters - Boss
+  CALL PROC_AddMonster('KONQUEROR','Konqueror', 250, 25, 'SKIRMISHER', 'GOBLIN', 'BOS');
 
   -- Monster Stats
   CALL PROC_AddMonsterBaseStats('HEALTH', 'GOBLIN', 60, 6);
@@ -1336,6 +1339,15 @@ BEGIN
   CALL PROC_AddMonsterBaseStats('DAMAGE', 'TAUROS', 50, 5);
   CALL PROC_AddMonsterBaseStats('DEFENSE', 'TAUROS', 80, 8);
   CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'TAUROS', 1000, 0);
+
+  CALL PROC_AddMonsterBaseStats('HEALTH', 'KONQUEROR', 5000, 500);
+  CALL PROC_AddMonsterBaseStats('MANA', 'KONQUEROR', 10000, 10);
+  CALL PROC_AddMonsterBaseStats('MOV_SPEED', 'KONQUEROR', 200, 2);
+  CALL PROC_AddMonsterBaseStats('ATTACK_SPEED', 'KONQUEROR', 16, 0);
+  CALL PROC_AddMonsterBaseStats('MELEE_RANGE', 'KONQUEROR', 100, 0);
+  CALL PROC_AddMonsterBaseStats('DAMAGE', 'KONQUEROR', 100, 10);
+  CALL PROC_AddMonsterBaseStats('DEFENSE', 'KONQUEROR', 150, 15);
+  CALL PROC_AddMonsterBaseStats('SIGHT_DISTANCE', 'KONQUEROR', 1500, 0);
 
   -- Monster Modifiers
   CALL PROC_AddMonsterModifier('EXTRA_STRONG', 'Extra Strong');
