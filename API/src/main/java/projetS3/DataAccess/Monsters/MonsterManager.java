@@ -34,13 +34,15 @@ public class MonsterManager
                 String monsterBehaviorCode = rs.getString("behaviorCode");
                 String monsterName = rs.getString("name");
                 String monsterQualityCode = rs.getString("qualityCode");
+                int baseExp = rs.getInt("baseExp");
+                int perLvlExp = rs.getInt("perLvlExp");
 
-                ArrayList<StatDTO> monsterBaseStats = getMonsterBaseStats(monsterCode);
+                ArrayList<MonsterStatDTO> monsterBaseStats = getMonsterBaseStats(monsterCode);
                 ArrayList<MonsterModifierDTO> monsterModifiers = getMonsterModifiers(monsterCode);
                 ArrayList<SkillDTO> monsterSkills = new ArrayList<SkillDTO>();
                 //ArrayList<SkillDTO> monsterSkills = getMonsterSkills(baseMonsterId);
 
-                MonsterDTO monsterDTO = new MonsterDTO(monsterCode, monsterName, baseMonsterCode, monsterBehaviorCode, monsterQualityCode, monsterBaseStats, monsterModifiers, monsterSkills);
+                MonsterDTO monsterDTO = new MonsterDTO(monsterCode, monsterName, baseMonsterCode, monsterBehaviorCode, monsterQualityCode, baseExp, perLvlExp, monsterBaseStats, monsterModifiers, monsterSkills);
                 monsters.add(monsterDTO);
             }
         }
@@ -52,9 +54,9 @@ public class MonsterManager
         return monsters;
     }
 
-    public ArrayList<StatDTO> getMonsterBaseStats(String monsterCode)
+    public ArrayList<MonsterStatDTO> getMonsterBaseStats(String monsterCode)
     {
-        ArrayList<StatDTO> monsterBaseStats = new ArrayList<StatDTO>();
+        ArrayList<MonsterStatDTO> monsterBaseStats = new ArrayList<MonsterStatDTO>();
 
         try (Connection conn = DriverManager.getConnection(dbInfo.dbPath, dbInfo.dbUsername, dbInfo.dbPassword))
         {
@@ -66,9 +68,10 @@ public class MonsterManager
             while (rs.next())
             {
                 String monsterStatCode = rs.getString("statCode");
-                float monsterStatValue = rs.getFloat("statValue");
+                float monsterStatValue = rs.getFloat("baseValue");
+                float perLvlValue = rs.getFloat("perLvlValue");
 
-                StatDTO monsterBaseStat = new StatDTO(monsterStatCode, monsterStatValue);
+                MonsterStatDTO monsterBaseStat = new MonsterStatDTO(monsterStatCode, monsterStatValue, perLvlValue);
                 monsterBaseStats.add(monsterBaseStat);
             }
         }

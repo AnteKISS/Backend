@@ -12,7 +12,9 @@ public class MonsterDTO
     public String baseCode;
     public String behaviorCode;
     public String qualityCode;
-    public ArrayList<StatDTO> monsterStats;
+    public int baseExp;
+    public int perLvlExp;
+    public ArrayList<MonsterStatDTO> monsterStats;
     public ArrayList<MonsterModifierDTO> monsterModifiers;
     public ArrayList<SkillDTO> monsterSkills;
 
@@ -23,18 +25,22 @@ public class MonsterDTO
         baseCode = "";
         behaviorCode = "";
         qualityCode = "";
-        monsterStats = new ArrayList<StatDTO>();
+        baseExp = 0;
+        perLvlExp = 0;
+        monsterStats = new ArrayList<MonsterStatDTO>();
         monsterModifiers = new ArrayList<MonsterModifierDTO>();
         monsterSkills = new ArrayList<SkillDTO>();
     }
 
-    public MonsterDTO(String code, String name, String baseCode, String behaviorCode, String qualityCode, ArrayList<StatDTO> monsterStats, ArrayList<MonsterModifierDTO> monsterModifiers, ArrayList<SkillDTO> monsterSkills)
+    public MonsterDTO(String code, String name, String baseCode, String behaviorCode, String qualityCode, int baseExp, int perLvlExp, ArrayList<MonsterStatDTO> monsterStats, ArrayList<MonsterModifierDTO> monsterModifiers, ArrayList<SkillDTO> monsterSkills)
     {
         this.code = code;
         this.name = name;
         this.baseCode = baseCode;
         this.behaviorCode = behaviorCode;
         this.qualityCode = qualityCode;
+        this.baseExp = baseExp;
+        this.perLvlExp = perLvlExp;
         this.monsterStats = monsterStats;
         this.monsterModifiers = monsterModifiers;
         this.monsterSkills = monsterSkills;
